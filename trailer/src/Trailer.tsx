@@ -62,18 +62,18 @@ export const Trailer: React.FC = () => {
         <WhatYouLearnScene />
       </Sequence>
 
-      {/* Scene 7: Testimonials (5s) */}
-      <Sequence from={1350} durationInFrames={150}>
+      {/* Scene 7: Testimonials (11s) - extended for founder story */}
+      <Sequence from={1350} durationInFrames={330}>
         <TestimonialScene />
       </Sequence>
 
-      {/* Scene 8: Showcase (5s) */}
-      <Sequence from={1500} durationInFrames={150}>
+      {/* Scene 8: Showcase (4s) */}
+      <Sequence from={1680} durationInFrames={120}>
         <ShowcaseScene />
       </Sequence>
 
       {/* Scene 9: CTA (5s) */}
-      <Sequence from={1650} durationInFrames={150}>
+      <Sequence from={1800} durationInFrames={150}>
         <CTAScene />
       </Sequence>
     </AbsoluteFill>

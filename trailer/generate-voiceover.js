@@ -39,7 +39,7 @@ Watch this. Need a landing page? You'll learn to prompt it. Shipped. Want an ana
 
 Inside SpeakCode, you'll learn prompt engineering, agentic workflows, and ship real projects.
 
-Students with zero coding background are now shipping real products.
+I used these skills to become app lead on a hundred thousand line enterprise platform. No CS degree. No engineering background. Just agentic coding.
 
 Apps, dashboards, videos, documents. You'll build them all.
 

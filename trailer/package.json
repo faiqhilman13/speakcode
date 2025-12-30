@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "remotion studio src/index.ts",
     "build": "remotion render src/index.ts Trailer out/trailer.mp4",
-    "render": "remotion render src/index.ts Trailer out/trailer.mp4"
+    "render": "remotion render src/index.ts Trailer out/trailer.mp4",
+    "render:agentic": "remotion render src/index.ts AgenticCodingTrailer out/agentic-coding-trailer.mp4",
+    "render:extended": "remotion render src/index.ts AgenticCodingTrailerExtended out/agentic-coding-trailer-extended.mp4"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.1",

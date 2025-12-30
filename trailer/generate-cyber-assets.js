@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import fs from "fs";
 
-const genAI = new GoogleGenerativeAI("AIzaSyDnSgpBxhL5mGuPEW6fxAG3N9Gt-tWGdJ4");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));

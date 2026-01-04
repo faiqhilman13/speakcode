@@ -42,7 +42,7 @@ export const CyberTrailer: React.FC = () => {
 
       {/* Voiceover - same script as original */}
       <Sequence from={0}>
-        <Audio src={staticFile("voiceover.mp3")} volume={1} />
+        <Audio src={staticFile("voiceover-with-pause.mp3")} volume={1} />
       </Sequence>
 
       {/* Scene 1: Hook (0-4s) */}

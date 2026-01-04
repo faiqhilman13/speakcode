@@ -1,0 +1,3 @@
+file '/Users/faiqhilman/Projects/agentic-coding-course/trailer/public/voiceover-part1.mp3'
+file '/Users/faiqhilman/Projects/agentic-coding-course/trailer/public/silence.mp3'
+file '/Users/faiqhilman/Projects/agentic-coding-course/trailer/public/voiceover-part2.mp3

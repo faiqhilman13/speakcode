@@ -2,7 +2,7 @@ import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 import fs from "fs";
 
 const client = new ElevenLabsClient({
-  apiKey: "sk_48c373bc8d55113357b020265dec6339480a77355c4b2a66"
+  apiKey: "sk_7740754f1b9d6421d71d4213f3a35dc4851769c4e9517a66"
 });
 
 // Voice options:
@@ -13,37 +13,41 @@ const client = new ElevenLabsClient({
 // JBFqnCBsd6RMkjVDRZzb - George (Warm, Captivating)
 // TX3LPaxmHKxFdv7VOQHJ - Liam (Energetic, Social Media)
 
-const VOICE_ID = "2ajXGJNYBR0iNHpS4VZb"; // User's preferred voice
+const VOICE_ID = "alFofuDn3cOwyoz1i44T"; // New voice
 
-// Scene timing (30fps):
-// Scene 1 (Hook): 0-4s
-// Scene 2 (Old Way): 4-12s
-// Scene 3 (Shift): 12-15s
-// Scene 4 (Before/After): 15-20s
-// Scene 5 (New Way): 20-36.7s (5 examples @ 3.3s each)
-// Scene 6 (What You Learn): 36.7-41.7s
-// Scene 7 (Testimonials): 41.7-47.7s
-// Scene 8 (Showcase): 47.7-50.7s
-// Scene 9 (CTA): 50.7-60s
+// Scene timing (30fps) - Build Anything Trailer:
+// Scene 1 (Hook): 0-5s - "What if you could build anything?"
+// Scene 2 (Capabilities): 5-12s - Apps, dashboards, agents...
+// Scene 3 (The Framework): 12-17s - "Can AI access it?"
+// Scene 4 (Credentials): 17-27s - Personal story
+// Scene 5 (Insight): 27-37s - "AI won't replace you..."
+// Scene 6 (Mental Model): 37-45s - What you'll learn
+// Scene 7 (CTA): 45-53s - Master agentic coding
 
 const voiceoverScript = `
-What if you could build anything, just by describing it?
+What if you could build anything?
 
-The old path? Years of tutorials. Endless debugging. Pure frustration.
+Apps. Dashboards. AI agents. Research systems. Mobile apps.
+Whatever your project needs.
 
-Then AI changed everything.
+The only question: can AI access it?
+If yes — you can build it.
 
-What used to take years, now takes weeks.
+I used this approach to become App Lead on a 100,000-line enterprise platform.
+Serving 30,000 users. No CS degree. No engineering background.
 
-Watch this. Need a landing page? You'll learn to prompt it. Shipped. Want an analytics dashboard? You'll build it in minutes. Creating a video? Master the workflow. Done. Need a pitch deck? You'll create it. Easy. Market research? You'll automate it. Complete. All skills you'll master.
+Here's the truth:
+AI won't replace you.
+But someone who knows how to work with AI will.
+That person could be you.
 
-Inside SpeakCode, you'll learn prompt engineering, agentic workflows, and ship real projects.
+In this course, you'll learn the mental model.
+How to think about what's possible.
+How to break problems down so AI can execute your vision.
 
-I used these skills to become app lead on a hundred thousand line enterprise platform. No CS degree. No engineering background. Just agentic coding.
-
-Apps, dashboards, videos, documents. You'll build them all.
-
-SpeakCode. Master agentic coding. The skill of the decade.
+Master agentic coding.
+The skill of the decade.
+Build whatever you want.
 `;
 
 async function generateVoiceover() {

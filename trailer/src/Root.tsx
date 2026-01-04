@@ -2,10 +2,10 @@ import { Composition } from "remotion";
 import { Trailer } from "./Trailer";
 import { CyberTrailer } from "./CyberTrailer";
 import { AgenticCodingTrailer } from "./AgenticCodingTrailer";
-import { AgenticCodingTrailerExtended } from "./AgenticCodingTrailerExtended";
-import { RetroTrailer } from "./RetroTrailer";
-import { MinimalistTrailer } from "./MinimalistTrailer";
 import { GlassmorphismTrailer } from "./GlassmorphismTrailer";
+import { SquareTrailer } from "./SquareTrailer";
+import { VerticalTrailer } from "./VerticalTrailer";
+import { BuildAnythingTrailer } from "./BuildAnythingTrailer";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -40,41 +40,41 @@ export const RemotionRoot: React.FC = () => {
         height={1080}
       />
 
-      {/* Agentic Coding 90-second extended trailer */}
-      <Composition
-        id="AgenticCodingTrailerExtended"
-        component={AgenticCodingTrailerExtended}
-        durationInFrames={2700}
-        fps={30}
-        width={1920}
-        height={1080}
-      />
-
-      {/* Bold Retro 80s/90s style trailer */}
-      <Composition
-        id="RetroTrailer"
-        component={RetroTrailer}
-        durationInFrames={1950}
-        fps={30}
-        width={1920}
-        height={1080}
-      />
-
-      {/* Minimalist Tech Swiss design trailer */}
-      <Composition
-        id="MinimalistTrailer"
-        component={MinimalistTrailer}
-        durationInFrames={1950}
-        fps={30}
-        width={1920}
-        height={1080}
-      />
-
       {/* Glassmorphism dreamy gradient style trailer */}
       <Composition
         id="GlassmorphismTrailer"
         component={GlassmorphismTrailer}
         durationInFrames={1950}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+
+      {/* Square format trailer (1080x1080) for Instagram/TikTok/LinkedIn */}
+      <Composition
+        id="SquareTrailer"
+        component={SquareTrailer}
+        durationInFrames={1950}
+        fps={30}
+        width={1080}
+        height={1080}
+      />
+
+      {/* Vertical format trailer (1080x1920) for Instagram Reels/TikTok/Stories */}
+      <Composition
+        id="VerticalTrailer"
+        component={VerticalTrailer}
+        durationInFrames={1950}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+
+      {/* New "Build Anything" trailer with updated script (possibility-focused) */}
+      <Composition
+        id="BuildAnythingTrailer"
+        component={BuildAnythingTrailer}
+        durationInFrames={1380}
         fps={30}
         width={1920}
         height={1080}

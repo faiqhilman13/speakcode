@@ -1,8 +1,7 @@
 import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile } from "remotion";
 
 /*
- * Founder Story Scene: Personal journey from zero to lead engineer
- * Layout: Split visual with achievement highlights
+ * Vertical Testimonial Scene: Founder story with journey image and 2x2 stats
  */
 
 const achievements = [
@@ -12,7 +11,7 @@ const achievements = [
   { stat: "2 Weeks", label: "Ahead of Schedule", sublabel: "Fastest UAT approval" },
 ];
 
-export const TestimonialScene: React.FC = () => {
+export const VerticalTestimonialScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -37,26 +36,26 @@ export const TestimonialScene: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ background: "#1a1a1a" }}>
-      {/* Header bar */}
+      {/* Header bar - taller */}
       <div
         style={{
           position: "absolute",
           top: 0,
           left: 0,
           right: 0,
-          height: 100,
+          height: 160,
           background: "#FDF6E3",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: "0 60px",
+          padding: "0 40px",
           zIndex: 10,
         }}
       >
         <div
           style={{
             fontFamily: "'SF Mono', monospace",
-            fontSize: 20,
+            fontSize: 30,
             letterSpacing: "0.15em",
             textTransform: "uppercase",
             color: "rgba(26,26,26,0.7)",
@@ -68,7 +67,7 @@ export const TestimonialScene: React.FC = () => {
         <div
           style={{
             fontFamily: "Georgia, serif",
-            fontSize: 28,
+            fontSize: 42,
             fontStyle: "italic",
             color: "#FF5E5B",
             opacity: titleOpacity,
@@ -78,14 +77,41 @@ export const TestimonialScene: React.FC = () => {
         </div>
       </div>
 
-      {/* Phase 1: Journey visualization */}
+      {/* Bottom accent bar - taller */}
       <div
         style={{
           position: "absolute",
-          top: 100,
+          bottom: 0,
           left: 0,
           right: 0,
-          bottom: 0,
+          height: 160,
+          background: "#FF5E5B",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "Georgia, serif",
+            fontSize: 36,
+            fontStyle: "italic",
+            color: "#FDF6E3",
+            opacity: frame >= 20 ? 1 : 0,
+          }}
+        >
+          These are the exact skills I teach inside SpeakCode.
+        </div>
+      </div>
+
+      {/* Phase 1: Journey visualization - larger and taller */}
+      <div
+        style={{
+          position: "absolute",
+          top: 140,
+          left: 0,
+          right: 0,
+          bottom: 130,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -93,75 +119,79 @@ export const TestimonialScene: React.FC = () => {
           transform: `scale(${journeyScale})`,
         }}
       >
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Img
             src={staticFile("founder-journey-warm.png")}
             style={{
-              width: 1000,
-              height: "auto",
-              borderRadius: 16,
-              boxShadow: "0 30px 80px rgba(0,0,0,0.4)",
+              width: "85%",
+              height: 1100,
+              borderRadius: 20,
+              boxShadow: "0 40px 100px rgba(0,0,0,0.5)",
             }}
           />
 
-          {/* Overlay text */}
+          {/* Overlay text - larger */}
           <div
             style={{
               position: "absolute",
-              bottom: -60,
+              bottom: -80,
               left: "50%",
               transform: "translateX(-50%)",
               fontFamily: "Georgia, serif",
-              fontSize: 36,
+              fontSize: 42,
               fontStyle: "italic",
               color: "#FDF6E3",
               textAlign: "center",
+              whiteSpace: "nowrap",
               opacity: mainTextY,
             }}
           >
-            No CS degree. No SWE experience. Just agentic coding.
+            No CS degree. No SWE experience.
+            <span style={{ display: "block", marginTop: 12 }}>Just agentic coding.</span>
           </div>
         </div>
       </div>
 
-      {/* Phase 2: Achievement stats grid */}
+      {/* Phase 2: Achievement stats grid - larger */}
       <div
         style={{
           position: "absolute",
-          top: 100,
+          top: 140,
           left: 0,
           right: 0,
-          bottom: 80,
+          bottom: 130,
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          padding: "40px 60px",
+          padding: "20px 40px",
           opacity: statsOpacity,
         }}
       >
-        {/* Main headline */}
+        {/* Main headline - larger */}
         <div
           style={{
             fontFamily: "Georgia, serif",
             fontSize: 52,
             color: "#FDF6E3",
             textAlign: "center",
-            marginBottom: 50,
-            lineHeight: 1.2,
+            marginBottom: 40,
+            lineHeight: 1.3,
           }}
         >
-          Became <span style={{ color: "#FF5E5B", fontStyle: "italic" }}>App Lead</span> on an Enterprise AI Platform
+          Became <span style={{ color: "#FF5E5B", fontStyle: "italic" }}>App Lead</span> on an
+          <span style={{ display: "block" }}>Enterprise AI Platform</span>
         </div>
 
-        {/* Stats grid */}
+        {/* 2x2 Stats grid - fix overflow, same sizes */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
+            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
             gap: 40,
             width: "100%",
-            maxWidth: 1200,
+            padding: "0 30px",
+            maxWidth: "calc(100% - 60px)",
           }}
         >
           {achievements.map((item, i) => {
@@ -177,22 +207,31 @@ export const TestimonialScene: React.FC = () => {
               <div
                 key={i}
                 style={{
-                  background: "rgba(253,246,227,0.05)",
-                  borderRadius: 20,
-                  padding: "50px 40px",
+                  background: "rgba(253,246,227,0.08)",
+                  borderRadius: 28,
+                  padding: "55px 35px",
                   textAlign: "center",
                   opacity: itemOpacity,
                   transform: `scale(${0.9 + itemScale * 0.1})`,
                   border: "1px solid rgba(253,246,227,0.1)",
+                  minWidth: 0,
+                  maxWidth: "100%",
+                  height: "280px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  overflow: "hidden",
                 }}
               >
                 <div
                   style={{
                     fontFamily: "Georgia, serif",
-                    fontSize: 72,
+                    fontSize: 80,
                     fontWeight: 400,
                     color: "#FF5E5B",
-                    marginBottom: 12,
+                    marginBottom: 16,
+                    lineHeight: 1,
                   }}
                 >
                   {item.stat}
@@ -200,9 +239,10 @@ export const TestimonialScene: React.FC = () => {
                 <div
                   style={{
                     fontFamily: "Georgia, serif",
-                    fontSize: 32,
+                    fontSize: 38,
                     color: "#FDF6E3",
-                    marginBottom: 8,
+                    marginBottom: 10,
+                    lineHeight: 1.2,
                   }}
                 >
                   {item.label}
@@ -210,7 +250,7 @@ export const TestimonialScene: React.FC = () => {
                 <div
                   style={{
                     fontFamily: "'SF Mono', monospace",
-                    fontSize: 18,
+                    fontSize: 20,
                     color: "rgba(253,246,227,0.5)",
                     textTransform: "uppercase",
                     letterSpacing: "0.05em",
@@ -223,45 +263,18 @@ export const TestimonialScene: React.FC = () => {
           })}
         </div>
 
-        {/* Bottom tagline */}
+        {/* Bottom tagline - larger */}
         <div
           style={{
-            marginTop: 45,
+            marginTop: 40,
             fontFamily: "'SF Mono', monospace",
-            fontSize: 18,
+            fontSize: 20,
             color: "rgba(253,246,227,0.6)",
             textAlign: "center",
             opacity: frame >= 250 ? interpolate(frame - 250, [0, 15], [0, 1], { extrapolateRight: "clamp" }) : 0,
           }}
         >
           Solo rebuilt mobile app • Led executive demos • Shipped 2 weeks early
-        </div>
-      </div>
-
-      {/* Bottom accent bar */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 80,
-          background: "#FF5E5B",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            fontFamily: "Georgia, serif",
-            fontSize: 26,
-            fontStyle: "italic",
-            color: "#FDF6E3",
-            opacity: frame >= 20 ? 1 : 0,
-          }}
-        >
-          These are the exact skills I teach inside SpeakCode.
         </div>
       </div>
     </AbsoluteFill>

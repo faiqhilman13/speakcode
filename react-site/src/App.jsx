@@ -256,8 +256,8 @@ function App() {
             <div className="footer-col">
               <h4>TRANSMIT</h4>
               <ul>
-                <li><a href="#">X / Twitter</a></li>
-                <li><a href="#">Github</a></li>
+                <li><a href="https://github.com/faiqhilman13" target="_blank" rel="noopener noreferrer">Github</a></li>
+                <li><a href="https://www.linkedin.com/in/faiqhilman/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
                 <li><a href="mailto:hello@speakcode.dev">System Mail</a></li>
               </ul>
             </div>

@@ -196,7 +196,7 @@ function App() {
           <div className="pricing-grid">
             <div className="pricing-card">
               <span className="pricing-tier">White Belt</span>
-              <div className="pricing-price">$20</div>
+              <div className="pricing-price">$50</div>
               <ul className="pricing-features">
                 <li>Full Video Curriculum</li>
                 <li>Strategic Resource Vault</li>

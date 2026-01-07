@@ -525,15 +525,241 @@ footer .logo {
   transform: translateY(0);
 }
 
+/* Tablet */
 @media (max-width: 1024px) {
-
-  .features-grid,
-  .pricing-grid,
-  .faq-grid {
-    grid-template-columns: 1fr;
-  }
-
   .container {
     padding: 0 2rem;
+  }
+
+  section {
+    padding: 6rem 0;
+  }
+
+  .features-grid,
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .faq-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .instructor-layout {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .instructor-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  section {
+    padding: 4rem 0;
+  }
+
+  /* Nav */
+  nav.desktop-nav {
+    display: none;
+  }
+
+  header .nav-inner {
+    height: 4rem;
+  }
+
+  .nav-cta {
+    padding: 0.5rem 1rem;
+    font-size: 0.6rem;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 90vh;
+    padding-top: 5rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.25rem, 12vw, 4rem);
+    margin-bottom: 1.5rem;
+    line-height: 0.95;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-badge {
+    font-size: 0.55rem;
+    padding: 0.4rem 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-ctas {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 1rem 2rem;
+    font-size: 0.7rem;
+    text-align: center;
+  }
+
+  /* Sections */
+  .section-header {
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    font-size: 0.65rem;
+    padding-left: 1rem;
+  }
+
+  /* Feature Cards */
+  .feature-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem;
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Instructor */
+  .instructor-bio p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .instructor-stats {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .stat-item {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+    min-width: 70px;
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+  }
+
+  .record-item {
+    padding: 1.5rem;
+  }
+
+  .record-item h4 {
+    font-size: 1.1rem;
+  }
+
+  .record-item p {
+    font-size: 0.85rem;
+  }
+
+  /* Pricing */
+  .pricing-card {
+    padding: 3rem 1.5rem;
+  }
+
+  .pricing-card.featured {
+    padding-top: 4rem;
+  }
+
+  .pricing-price {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  .pricing-features {
+    margin-bottom: 2rem;
+  }
+
+  .pricing-features li {
+    font-size: 0.85rem;
+  }
+
+  /* FAQ */
+  .faq-item {
+    padding: 1.5rem;
+  }
+
+  .faq-item h3 {
+    font-size: 1rem;
+  }
+
+  .faq-item p {
+    font-size: 0.85rem;
+  }
+
+  /* Footer */
+  footer {
+    padding: 4rem 0;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-brand p {
+    font-size: 0.9rem;
+  }
+
+  .footer-col h4 {
+    margin-bottom: 1rem;
+  }
+
+  .footer-col ul {
+    list-style: none;
+  }
+
+  .footer-col li {
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-bottom {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    font-size: 0.75rem;
   }
 }

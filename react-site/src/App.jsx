@@ -223,7 +223,7 @@ function App() {
                 <li>Custom Workflow Design</li>
                 <li>Direct System Integration</li>
               </ul>
-              <a href="mailto:hello@speakcode.dev" className="btn-secondary">Contact Sensei</a>
+              <a href="https://www.linkedin.com/in/faiqhilman/" target="_blank" rel="noopener noreferrer" className="btn-secondary">Contact Sensei</a>
             </div>
           </div>
         </section>

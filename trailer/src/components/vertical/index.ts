@@ -1,9 +1,6 @@
-export { VerticalHookScene } from "./VerticalHookScene";
-export { VerticalOldWayScene } from "./VerticalOldWayScene";
-export { VerticalShiftScene } from "./VerticalShiftScene";
-export { VerticalBeforeAfterScene } from "./VerticalBeforeAfterScene";
-export { VerticalNewWayScene } from "./VerticalNewWayScene";
+export { VerticalBuildAnythingHookScene } from "./VerticalBuildAnythingHookScene";
+export { VerticalCapabilitiesScene } from "./VerticalCapabilitiesScene";
+export { VerticalLimitScene } from "./VerticalLimitScene";
+export { VerticalFounderStoryScene } from "./VerticalFounderStoryScene";
 export { VerticalWhatYouLearnScene } from "./VerticalWhatYouLearnScene";
-export { VerticalTestimonialScene } from "./VerticalTestimonialScene";
-export { VerticalShowcaseScene } from "./VerticalShowcaseScene";
-export { VerticalCTAScene } from "./VerticalCTAScene";
+export { VerticalAntiHypeCTAScene } from "./VerticalAntiHypeCTAScene";

@@ -121,7 +121,7 @@ export const BuildAnythingHookScene: React.FC = () => {
               color: "rgba(253,246,227,0.6)",
             }}
           >
-            SpeakCode
+            AgenticDojo
           </div>
         </div>
         <div

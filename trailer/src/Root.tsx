@@ -6,6 +6,8 @@ import { GlassmorphismTrailer } from "./GlassmorphismTrailer";
 import { SquareTrailer } from "./SquareTrailer";
 import { VerticalTrailer } from "./VerticalTrailer";
 import { BuildAnythingTrailer } from "./BuildAnythingTrailer";
+import { DojoTrailer } from "./DojoTrailer";
+import { DojoTrailerVertical } from "./DojoTrailerVertical";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -64,7 +66,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="VerticalTrailer"
         component={VerticalTrailer}
-        durationInFrames={1950}
+        durationInFrames={1800}
         fps={30}
         width={1080}
         height={1920}
@@ -74,10 +76,29 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="BuildAnythingTrailer"
         component={BuildAnythingTrailer}
-        durationInFrames={1380}
+        durationInFrames={1800}
         fps={30}
         width={1920}
         height={1080}
+      />
+
+      {/* New Noob-Friendly Dojo // Zero Trailer */}
+      <Composition
+        id="DojoTrailer"
+        component={DojoTrailer}
+        durationInFrames={1470}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      {/* Vertical Dojo // Zero Trailer (Mobile/Shorts) */}
+      <Composition
+        id="DojoTrailerVertical"
+        component={DojoTrailerVertical}
+        durationInFrames={1470}
+        fps={30}
+        width={1080}
+        height={1920}
       />
     </>
   );

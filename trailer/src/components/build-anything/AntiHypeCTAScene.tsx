@@ -267,7 +267,7 @@ export const AntiHypeCTAScene: React.FC = () => {
               letterSpacing: "-0.02em",
             }}
           >
-            SpeakCode
+            AgenticDojo
           </div>
         </div>
 
@@ -379,7 +379,7 @@ export const AntiHypeCTAScene: React.FC = () => {
             color: "#FDF6E3",
           }}
         >
-          speakcode.com
+          agenticdojo.com
         </div>
       </div>
     </AbsoluteFill>

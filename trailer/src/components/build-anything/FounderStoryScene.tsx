@@ -1,92 +1,149 @@
-import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile } from "remotion";
+import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
 
 /*
- * Founder Story Scene: Personal journey + philosophical insight
+ * Founder Story Scene: "Zero to Hero" credentials showcase
  *
- * DESIGN: Editorial magazine spread with dramatic transitions
- * - Phase 1: Credentials with large image and overlay
- * - Phase 2: The insight - typographic focus with pull quote styling
- * - Large quotation marks as decorative elements
- * - Smooth phase transition with cross-fade
+ * DESIGN: Dynamic credential reveal with animated stats
+ * - Phase 1: Enterprise credentials with animated counters
+ * - Phase 2: Hackathon achievement with dramatic reveal
+ * - Phase 3: The philosophical insight
+ *
+ * Goal: Make viewers think "damn this dude is stacked"
  */
+
+// Animated counter component
+const AnimatedCounter: React.FC<{
+  value: number;
+  suffix?: string;
+  startFrame: number;
+  currentFrame: number;
+  fps: number;
+  duration?: number;
+}> = ({ value, suffix = "", startFrame, currentFrame, fps, duration = 30 }) => {
+  if (currentFrame < startFrame) return <span>0{suffix}</span>;
+
+  const progress = Math.min(1, (currentFrame - startFrame) / duration);
+  const eased = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+  const displayValue = Math.floor(value * eased);
+
+  return <span>{displayValue.toLocaleString()}{suffix}</span>;
+};
 
 export const FounderStoryScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Phase timing (450 frames total)
-  const phase1End = 200;
+  // Phase timing (660 frames total = 22s)
+  // Phase 1: Enterprise credentials (0-300) - 10s
+  // Phase 2: Hackathon + Side projects (300-450) - 5s (reduced by 4s)
+  // Phase 3: Philosophical insight (450-660) - 7s (end 3s earlier)
+
+  const phase1End = 300;
+  const phase2End = 450;
+
   const phase1Active = frame < phase1End;
-  const phase2Active = frame >= phase1End - 30;
+  const phase2Active = frame >= phase1End - 30 && frame < phase2End;
+  const phase3Active = frame >= phase2End - 30;
 
   // Phase 1 animations
   const phase1Opacity = phase1Active
     ? interpolate(frame, [0, 20, phase1End - 30, phase1End], [0, 1, 1, 0], { extrapolateRight: "clamp" })
     : 0;
-  const imageSpring = frame >= 10 ? spring({ frame: frame - 10, fps, config: { damping: 18 } }) : 0;
-  const credentialsSpring = frame >= 30 ? spring({ frame: frame - 30, fps, config: { damping: 15 } }) : 0;
+
+  const titleSpring = frame >= 10 ? spring({ frame: frame - 10, fps, config: { damping: 14 } }) : 0;
+  const stat1Spring = frame >= 50 ? spring({ frame: frame - 50, fps, config: { damping: 12, stiffness: 100 } }) : 0;
+  const stat2Spring = frame >= 90 ? spring({ frame: frame - 90, fps, config: { damping: 12, stiffness: 100 } }) : 0;
+  const stat3Spring = frame >= 130 ? spring({ frame: frame - 130, fps, config: { damping: 12, stiffness: 100 } }) : 0;
+  const roleSpring = frame >= 180 ? spring({ frame: frame - 180, fps, config: { damping: 14 } }) : 0;
+  const companySpring = frame >= 220 ? spring({ frame: frame - 220, fps, config: { damping: 14 } }) : 0;
 
   // Phase 2 animations
   const phase2Opacity = phase2Active
-    ? interpolate(frame - (phase1End - 30), [0, 40], [0, 1], { extrapolateRight: "clamp" })
+    ? interpolate(frame - (phase1End - 30), [0, 40, phase2End - phase1End - 10, phase2End - phase1End + 20], [0, 1, 1, 0], { extrapolateRight: "clamp" })
     : 0;
-  const realThingSpring = frame >= phase1End + 10
-    ? spring({ frame: frame - phase1End - 10, fps, config: { damping: 16 } })
+
+  const hackathonTitleSpring = frame >= phase1End + 10
+    ? spring({ frame: frame - phase1End - 10, fps, config: { damping: 14 } }) : 0;
+  const hackathonStatSpring = frame >= phase1End + 30
+    ? spring({ frame: frame - phase1End - 30, fps, config: { damping: 12, stiffness: 80 } }) : 0;
+  const hackathonDetailSpring = frame >= phase1End + 50
+    ? spring({ frame: frame - phase1End - 50, fps, config: { damping: 14 } }) : 0;
+  const soloTagSpring = frame >= phase1End + 70
+    ? spring({ frame: frame - phase1End - 70, fps, config: { damping: 10, stiffness: 120 } }) : 0;
+
+  // Phase 3 animations
+  const phase3Opacity = phase3Active
+    ? interpolate(frame - (phase2End - 30), [0, 40], [0, 1], { extrapolateRight: "clamp" })
     : 0;
-  const insightSpring = frame >= phase1End + 40
-    ? spring({ frame: frame - phase1End - 40, fps, config: { damping: 14 } })
-    : 0;
-  const becameSpring = frame >= phase1End + 80
-    ? spring({ frame: frame - phase1End - 80, fps, config: { damping: 14 } })
-    : 0;
-  const superpowerSpring = frame >= phase1End + 140
-    ? spring({ frame: frame - phase1End - 140, fps, config: { damping: 12, stiffness: 80 } })
-    : 0;
+
+  const truthSpring = frame >= phase2End + 15
+    ? spring({ frame: frame - phase2End - 15, fps, config: { damping: 18 } }) : 0;
+  const insight1Spring = frame >= phase2End + 45
+    ? spring({ frame: frame - phase2End - 45, fps, config: { damping: 16 } }) : 0;
+  const insight2Spring = frame >= phase2End + 90
+    ? spring({ frame: frame - phase2End - 90, fps, config: { damping: 16 } }) : 0;
+  const ctaSpring = frame >= phase2End + 135
+    ? spring({ frame: frame - phase2End - 135, fps, config: { damping: 14, stiffness: 80 } }) : 0;
+
+  // Floating particles
+  const particles = Array.from({ length: 20 }, (_, i) => ({
+    x: 100 + (i * 95) % 1800,
+    y: 150 + Math.sin(i * 1.5) * 400,
+    size: 3 + (i % 4) * 2,
+    speed: 0.02 + (i % 3) * 0.01,
+  }));
 
   return (
     <AbsoluteFill style={{ background: "#1a1a1a", overflow: "hidden" }}>
-      {/* Phase 1: Credentials */}
+      {/* Animated gradient background */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          opacity: phase1Opacity,
+          background: `radial-gradient(ellipse at ${50 + Math.sin(frame * 0.01) * 10}% ${40 + Math.cos(frame * 0.008) * 10}%, rgba(255,94,91,0.08) 0%, transparent 50%)`,
         }}
-      >
-        {/* Full-bleed image with overlay */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            opacity: imageSpring * 0.6,
-            transform: `scale(${1 + imageSpring * 0.05})`,
-          }}
-        >
-          <Img
-            src={staticFile("founder-journey-warm.png")}
+      />
+
+      {/* Floating particles */}
+      {particles.map((p, i) => {
+        const floatY = Math.sin((frame + i * 30) * p.speed) * 20;
+        const floatX = Math.cos((frame + i * 20) * p.speed * 0.5) * 10;
+        const particleOpacity = interpolate(frame, [20, 50], [0, 0.2 + (i % 3) * 0.1], { extrapolateRight: "clamp" });
+
+        return (
+          <div
+            key={i}
             style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
+              position: "absolute",
+              left: p.x + floatX,
+              top: p.y + floatY,
+              width: p.size,
+              height: p.size,
+              background: i % 3 === 0 ? "#FF5E5B" : "rgba(253,246,227,0.3)",
+              borderRadius: "50%",
+              opacity: particleOpacity,
             }}
           />
-        </div>
+        );
+      })}
 
-        {/* Dark gradient overlay */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: `linear-gradient(
-              135deg,
-              rgba(26,26,26,0.95) 0%,
-              rgba(26,26,26,0.7) 50%,
-              rgba(26,26,26,0.85) 100%
-            )`,
-          }}
-        />
+      {/* Subtle grid pattern */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          opacity: 0.02,
+          backgroundImage: `
+            linear-gradient(rgba(253,246,227,0.5) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(253,246,227,0.5) 1px, transparent 1px)
+          `,
+          backgroundSize: "80px 80px",
+        }}
+      />
 
-        {/* Top header bar */}
+      {/* ============ PHASE 1: Enterprise Credentials ============ */}
+      <div style={{ position: "absolute", inset: 0, opacity: phase1Opacity }}>
+        {/* Header */}
         <div
           style={{
             position: "absolute",
@@ -100,7 +157,7 @@ export const FounderStoryScene: React.FC = () => {
             alignItems: "center",
             padding: "0 60px",
             zIndex: 10,
-            opacity: imageSpring,
+            opacity: titleSpring,
           }}
         >
           <div
@@ -112,7 +169,7 @@ export const FounderStoryScene: React.FC = () => {
               color: "rgba(26,26,26,0.5)",
             }}
           >
-            My Story
+            The Proof
           </div>
           <div
             style={{
@@ -122,113 +179,490 @@ export const FounderStoryScene: React.FC = () => {
               color: "#FF5E5B",
             }}
           >
-            From zero to lead
+            Zero to hero
           </div>
         </div>
 
-        {/* Credentials content */}
+        {/* Main title */}
+        <div
+          style={{
+            position: "absolute",
+            top: 110,
+            left: 80,
+            opacity: titleSpring,
+            transform: `translateY(${(1 - titleSpring) * 20}px)`,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "'SF Mono', monospace",
+              fontSize: 16,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              color: "rgba(253,246,227,0.4)",
+              marginBottom: 15,
+            }}
+          >
+            Enterprise Impact
+          </div>
+          <div
+            style={{
+              fontFamily: "Georgia, serif",
+              fontSize: 56,
+              color: "#FDF6E3",
+              lineHeight: 1.1,
+            }}
+          >
+            I built the AI platform<br />
+            <span style={{ color: "#FF5E5B", fontStyle: "italic" }}>everyone uses.</span>
+          </div>
+        </div>
+
+        {/* Stats grid */}
+        <div
+          style={{
+            position: "absolute",
+            top: 320,
+            left: 80,
+            display: "flex",
+            gap: 50,
+          }}
+        >
+          {/* Stat 1: LOC */}
+          <div
+            style={{
+              opacity: stat1Spring,
+              transform: `translateY(${(1 - stat1Spring) * 40}px) scale(${0.8 + stat1Spring * 0.2})`,
+            }}
+          >
+            <div
+              style={{
+                background: "rgba(255,94,91,0.1)",
+                border: "2px solid rgba(255,94,91,0.3)",
+                borderRadius: 20,
+                padding: "35px 45px",
+                minWidth: 280,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: 72,
+                  fontWeight: 400,
+                  color: "#FF5E5B",
+                  lineHeight: 1,
+                }}
+              >
+                <AnimatedCounter value={100} suffix="K+" startFrame={60} currentFrame={frame} fps={fps} duration={90} />
+              </div>
+              <div
+                style={{
+                  fontFamily: "'SF Mono', monospace",
+                  fontSize: 14,
+                  color: "rgba(253,246,227,0.6)",
+                  marginTop: 12,
+                  letterSpacing: "0.05em",
+                }}
+              >
+                LINES OF CODE
+              </div>
+              <div
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: 18,
+                  color: "#FDF6E3",
+                  marginTop: 8,
+                  fontStyle: "italic",
+                }}
+              >
+                Top 3 contributor
+              </div>
+            </div>
+          </div>
+
+          {/* Stat 2: Users */}
+          <div
+            style={{
+              opacity: stat2Spring,
+              transform: `translateY(${(1 - stat2Spring) * 40}px) scale(${0.8 + stat2Spring * 0.2})`,
+            }}
+          >
+            <div
+              style={{
+                background: "rgba(253,246,227,0.05)",
+                border: "2px solid rgba(253,246,227,0.15)",
+                borderRadius: 20,
+                padding: "35px 45px",
+                minWidth: 280,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: 72,
+                  fontWeight: 400,
+                  color: "#FDF6E3",
+                  lineHeight: 1,
+                }}
+              >
+                <AnimatedCounter value={30} suffix="K+" startFrame={100} currentFrame={frame} fps={fps} duration={90} />
+              </div>
+              <div
+                style={{
+                  fontFamily: "'SF Mono', monospace",
+                  fontSize: 14,
+                  color: "rgba(253,246,227,0.6)",
+                  marginTop: 12,
+                  letterSpacing: "0.05em",
+                }}
+              >
+                USERS SERVED
+              </div>
+              <div
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: 18,
+                  color: "rgba(253,246,227,0.7)",
+                  marginTop: 8,
+                  fontStyle: "italic",
+                }}
+              >
+                Enterprise GenAI
+              </div>
+            </div>
+          </div>
+
+          {/* Stat 3: Team */}
+          <div
+            style={{
+              opacity: stat3Spring,
+              transform: `translateY(${(1 - stat3Spring) * 40}px) scale(${0.8 + stat3Spring * 0.2})`,
+            }}
+          >
+            <div
+              style={{
+                background: "rgba(253,246,227,0.05)",
+                border: "2px solid rgba(253,246,227,0.15)",
+                borderRadius: 20,
+                padding: "35px 45px",
+                minWidth: 280,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: 72,
+                  fontWeight: 400,
+                  color: "#FDF6E3",
+                  lineHeight: 1,
+                }}
+              >
+                <AnimatedCounter value={40} suffix="" startFrame={140} currentFrame={frame} fps={fps} duration={90} />
+              </div>
+              <div
+                style={{
+                  fontFamily: "'SF Mono', monospace",
+                  fontSize: 14,
+                  color: "rgba(253,246,227,0.6)",
+                  marginTop: 12,
+                  letterSpacing: "0.05em",
+                }}
+              >
+                PERSON TEAM
+              </div>
+              <div
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: 18,
+                  color: "rgba(253,246,227,0.7)",
+                  marginTop: 8,
+                  fontStyle: "italic",
+                }}
+              >
+                App Lead
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Role + Company */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 120,
+            left: 80,
+            display: "flex",
+            alignItems: "center",
+            gap: 30,
+          }}
+        >
+          <div
+            style={{
+              opacity: roleSpring,
+              transform: `translateX(${(1 - roleSpring) * -30}px)`,
+            }}
+          >
+            <div
+              style={{
+                background: "#FF5E5B",
+                padding: "18px 35px",
+                borderRadius: 12,
+                boxShadow: "0 10px 40px rgba(255,94,91,0.3)",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: 24,
+                  color: "#FDF6E3",
+                }}
+              >
+                Senior AI Engineer
+              </div>
+            </div>
+          </div>
+
+          <div
+            style={{
+              opacity: companySpring,
+              transform: `translateX(${(1 - companySpring) * -20}px)`,
+            }}
+          >
+            <div
+              style={{
+                fontFamily: "'SF Mono', monospace",
+                fontSize: 18,
+                color: "rgba(253,246,227,0.5)",
+                letterSpacing: "0.05em",
+              }}
+            >
+              @ EY · Top 5 KLSE Company
+            </div>
+          </div>
+        </div>
+
+        {/* "No CS degree" tags */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 50,
+            left: 80,
+            display: "flex",
+            gap: 25,
+            opacity: companySpring,
+          }}
+        >
+          {["No CS degree", "No tech background", "Just agentic coding"].map((text, i) => (
+            <div
+              key={text}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <div
+                style={{
+                  width: i === 2 ? 8 : 6,
+                  height: i === 2 ? 8 : 6,
+                  background: i === 2 ? "#FF5E5B" : "rgba(253,246,227,0.3)",
+                  borderRadius: "50%",
+                }}
+              />
+              <div
+                style={{
+                  fontFamily: "'SF Mono', monospace",
+                  fontSize: 14,
+                  color: i === 2 ? "#FF5E5B" : "rgba(253,246,227,0.4)",
+                  letterSpacing: "0.03em",
+                }}
+              >
+                {text}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ============ PHASE 2: Hackathon Achievement ============ */}
+      <div style={{ position: "absolute", inset: 0, opacity: phase2Opacity }}>
+        {/* Header */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 80,
+            background: "#FF5E5B",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "0 60px",
+            zIndex: 10,
+            opacity: hackathonTitleSpring,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "'SF Mono', monospace",
+              fontSize: 14,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "rgba(253,246,227,0.7)",
+            }}
+          >
+            Competition
+          </div>
+          <div
+            style={{
+              fontFamily: "Georgia, serif",
+              fontSize: 22,
+              fontStyle: "italic",
+              color: "#FDF6E3",
+            }}
+          >
+            Against 150+ teams
+          </div>
+        </div>
+
+        {/* Main content */}
         <div
           style={{
             position: "absolute",
             top: "50%",
-            left: 80,
-            transform: "translateY(-50%)",
-            maxWidth: 900,
-            opacity: credentialsSpring,
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            textAlign: "center",
           }}
         >
-          {/* Large quotation mark */}
+          {/* Big ranking */}
           <div
             style={{
-              fontFamily: "Georgia, serif",
-              fontSize: 300,
-              color: "rgba(255,94,91,0.1)",
-              lineHeight: 0.5,
-              marginBottom: -80,
-              marginLeft: -30,
+              opacity: hackathonStatSpring,
+              transform: `scale(${0.7 + hackathonStatSpring * 0.3})`,
             }}
           >
-            "
+            <div
+              style={{
+                fontFamily: "Georgia, serif",
+                fontSize: 200,
+                fontWeight: 400,
+                color: "#FF5E5B",
+                lineHeight: 0.9,
+                textShadow: "0 20px 60px rgba(255,94,91,0.3)",
+              }}
+            >
+              Top 5
+            </div>
+            <div
+              style={{
+                fontFamily: "'SF Mono', monospace",
+                fontSize: 28,
+                color: "rgba(253,246,227,0.5)",
+                marginTop: 10,
+                letterSpacing: "0.1em",
+              }}
+            >
+              OUT OF 150+ PARTICIPANTS
+            </div>
           </div>
 
+          {/* Hackathon details */}
           <div
             style={{
-              fontFamily: "Georgia, serif",
-              fontSize: 48,
-              color: "#FDF6E3",
-              lineHeight: 1.3,
-              position: "relative",
-              zIndex: 1,
+              marginTop: 60,
+              opacity: hackathonDetailSpring,
+              transform: `translateY(${(1 - hackathonDetailSpring) * 30}px)`,
             }}
           >
-            I used this approach to become{" "}
-            <span style={{ color: "#FF5E5B", fontStyle: "italic" }}>App Lead</span>
-            <br />
-            on a <span style={{ fontStyle: "italic" }}>100,000-line</span> enterprise platform.
-            <br />
-            <span style={{ fontSize: 40, opacity: 0.8 }}>Serving 30,000 users.</span>
+            <div
+              style={{
+                fontFamily: "Georgia, serif",
+                fontSize: 42,
+                color: "#FDF6E3",
+                lineHeight: 1.3,
+              }}
+            >
+              ASEAN AI Hackathon
+            </div>
+            <div
+              style={{
+                fontFamily: "'SF Mono', monospace",
+                fontSize: 18,
+                color: "rgba(253,246,227,0.5)",
+                marginTop: 15,
+                letterSpacing: "0.05em",
+              }}
+            >
+              Ministry of Health · National AI Office Malaysia
+            </div>
           </div>
 
+          {/* SOLO tag */}
           <div
             style={{
-              display: "flex",
-              gap: 40,
-              marginTop: 45,
+              marginTop: 50,
+              opacity: soloTagSpring,
+              transform: `scale(${0.8 + soloTagSpring * 0.2})`,
             }}
           >
-            {["No CS degree", "No background", "Just agentic coding"].map((text, i) => (
+            <div
+              style={{
+                display: "inline-block",
+                background: "#FDF6E3",
+                padding: "20px 50px",
+                borderRadius: 14,
+                boxShadow: "0 15px 50px rgba(253,246,227,0.2)",
+              }}
+            >
               <div
-                key={text}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 12,
-                  opacity: credentialsSpring,
+                  fontFamily: "Georgia, serif",
+                  fontSize: 32,
+                  fontStyle: "italic",
+                  color: "#1a1a1a",
                 }}
               >
-                <div
-                  style={{
-                    width: i === 2 ? 8 : 6,
-                    height: i === 2 ? 8 : 6,
-                    background: i === 2 ? "#FF5E5B" : "rgba(253,246,227,0.4)",
-                    borderRadius: "50%",
-                  }}
-                />
-                <div
-                  style={{
-                    fontFamily: "'SF Mono', monospace",
-                    fontSize: 18,
-                    color: i === 2 ? "#FF5E5B" : "rgba(253,246,227,0.5)",
-                    letterSpacing: "0.03em",
-                  }}
-                >
-                  {text}
-                </div>
+                As a <span style={{ color: "#FF5E5B" }}>solo</span> developer
               </div>
-            ))}
+            </div>
           </div>
         </div>
 
-        {/* Vertical accent line */}
+        {/* Decorative corner elements */}
         <div
           style={{
             position: "absolute",
-            left: 50,
             top: 120,
-            bottom: 80,
-            width: 4,
-            background: "#FF5E5B",
-            opacity: credentialsSpring,
+            left: 50,
+            width: 100,
+            height: 100,
+            borderLeft: "4px solid rgba(255,94,91,0.3)",
+            borderTop: "4px solid rgba(255,94,91,0.3)",
+            opacity: hackathonDetailSpring,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: 50,
+            right: 50,
+            width: 100,
+            height: 100,
+            borderRight: "4px solid rgba(255,94,91,0.3)",
+            borderBottom: "4px solid rgba(255,94,91,0.3)",
+            opacity: hackathonDetailSpring,
           }}
         />
       </div>
 
-      {/* Phase 2: The Insight */}
+      {/* ============ PHASE 3: The Insight ============ */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          opacity: phase2Opacity,
+          opacity: phase3Opacity,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -260,8 +694,8 @@ export const FounderStoryScene: React.FC = () => {
             textTransform: "uppercase",
             color: "rgba(253,246,227,0.4)",
             marginBottom: 50,
-            opacity: realThingSpring,
-            transform: `translateY(${(1 - realThingSpring) * 15}px)`,
+            opacity: truthSpring,
+            transform: `translateY(${(1 - truthSpring) * 15}px)`,
           }}
         >
           Here's the truth
@@ -275,8 +709,8 @@ export const FounderStoryScene: React.FC = () => {
             color: "#FDF6E3",
             textAlign: "center",
             marginBottom: 30,
-            opacity: insightSpring,
-            transform: `translateY(${(1 - insightSpring) * 25}px)`,
+            opacity: insight1Spring,
+            transform: `translateY(${(1 - insight1Spring) * 25}px)`,
           }}
         >
           AI won't replace you.
@@ -290,8 +724,8 @@ export const FounderStoryScene: React.FC = () => {
             color: "#FDF6E3",
             textAlign: "center",
             lineHeight: 1.3,
-            opacity: becameSpring,
-            transform: `translateY(${(1 - becameSpring) * 25}px)`,
+            opacity: insight2Spring,
+            transform: `translateY(${(1 - insight2Spring) * 25}px)`,
           }}
         >
           But someone who knows how to{" "}
@@ -304,8 +738,8 @@ export const FounderStoryScene: React.FC = () => {
         <div
           style={{
             marginTop: 70,
-            opacity: superpowerSpring,
-            transform: `scale(${0.9 + superpowerSpring * 0.1})`,
+            opacity: ctaSpring,
+            transform: `scale(${0.9 + ctaSpring * 0.1})`,
           }}
         >
           <div
@@ -338,7 +772,7 @@ export const FounderStoryScene: React.FC = () => {
             display: "flex",
             alignItems: "center",
             gap: 20,
-            opacity: superpowerSpring,
+            opacity: ctaSpring,
           }}
         >
           <div style={{ width: 60, height: 3, background: "#FF5E5B" }} />

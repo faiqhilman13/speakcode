@@ -15,14 +15,13 @@ const client = new ElevenLabsClient({
 
 const VOICE_ID = "alFofuDn3cOwyoz1i44T"; // New voice
 
-// Scene timing (30fps) - Build Anything Trailer:
-// Scene 1 (Hook): 0-5s - "What if you could build anything?"
-// Scene 2 (Capabilities): 5-12s - Apps, dashboards, agents...
-// Scene 3 (The Framework): 12-17s - "Can AI access it?"
-// Scene 4 (Credentials): 17-27s - Personal story
-// Scene 5 (Insight): 27-37s - "AI won't replace you..."
-// Scene 6 (Mental Model): 37-45s - What you'll learn
-// Scene 7 (CTA): 45-53s - Master agentic coding
+// Scene timing (30fps) - Build Anything Trailer (Total: 54s / 1620 frames):
+// Scene 1 (Hook): 0-2s - "What if you could build anything?"
+// Scene 2 (Capabilities): 2-8s - Apps, dashboards, agents...
+// Scene 3 (The Limit): 8-13s - "The only question: can AI access it?"
+// Scene 4 (Founder Story): 13-37s - Credentials, Hackathon, Insight
+// Scene 5 (What You'll Learn): 37-45s - 3 modules: Mental Model, Framework, Live Build
+// Scene 6 (CTA): 45-54s - Master agentic coding
 
 const voiceoverScript = `
 What if you could build anything?
@@ -33,17 +32,23 @@ Whatever your project needs.
 The only question: can AI access it?
 If yes — you can build it.
 
-I used this approach to become App Lead on a 100,000-line enterprise platform.
-Serving 30,000 users. No CS degree. No engineering background.
+I used this approach to become a top 3 contributor on a 100,000-line enterprise AI platform.
+Serving 30,000 users. Leading a 40-person engineering team.
+
+Then I placed Top 5 in a national AI hackathon.
+Against 150 participants. As a solo developer.
 
 Here's the truth:
 AI won't replace you.
 But someone who knows how to work with AI will.
 That person could be you.
 
-In this course, you'll learn the mental model.
-How to think about what's possible.
-How to break problems down so AI can execute your vision.
+In this course, you'll learn the mental model for AI development.
+Then master the 5-step framework to orchestrate agents effectively.
+And watch me build a real project from scratch.
+
+100 minutes of HD video. Real-world projects. Framework templates.
+Everything you need to start shipping faster today.
 
 Master agentic coding.
 The skill of the decade.

@@ -4,7 +4,7 @@ import {
   CapabilitiesScene,
   LimitScene,
   FounderStoryScene,
-  MentalModelScene,
+  WhatYouLearnScene,
   AntiHypeCTAScene,
 } from "./components/build-anything";
 
@@ -13,18 +13,16 @@ import {
  *
  * New script focus: Possibility-driven, anti-hype positioning
  *
- * Script breakdown (estimated ~48 seconds):
- * 1. Hook (0-7s): "What if you could build anything? Not faster coding..."
- * 2. Capabilities (7-13s): "Landing pages. Dashboards. Video editors..."
- * 3. Limit (13-18s): "The only limit: can an AI agent access it?"
- * 4. Founder Story (18-33s): Credentials + "That's the actual superpower"
- * 5. Mental Model (33-41s): "In this course, you'll learn the mental model..."
- * 6. CTA (41-48s): "Not coding tutorials. Not AI hype..."
+ * Script breakdown (60 seconds):
+ * 1. Hook (0-2s): "What if you could build anything?"
+ * 2. Capabilities (2-8s): "Apps. Dashboards. AI agents. Research systems. Mobile apps."
+ * 3. Limit (8-12s): "The only question: can AI access it? If yes, you can build it."
+ * 4. Founder Story (12-34s): Credentials + Hackathon (5s) + "AI won't replace you..." (7s, ends earlier)
+ * 5. What You'll Learn (34-51s): 3 modules: Mental Model, Framework, Live Build (17s, extended)
+ * 6. CTA (51-60s): "Master agentic coding. The skill of the decade."
  *
  * Design: Warm editorial brutalism (cream/coral/black)
- * Duration: ~1500 frames @ 30fps = 50 seconds
- *
- * NOTE: Timing will need adjustment once new voiceover is generated
+ * Duration: 1800 frames @ 30fps = 60 seconds
  */
 
 export const BuildAnythingTrailer: React.FC = () => {
@@ -33,8 +31,8 @@ export const BuildAnythingTrailer: React.FC = () => {
       {/* Background music - lower volume to not overpower voiceover */}
       <Audio src={staticFile("background-music.mp3")} volume={0.15} />
 
-      {/* Voiceover - sped up 1.2x */}
-      <Audio src={staticFile("voiceover.mp3")} volume={1} playbackRate={1.2} />
+      {/* Voiceover - sped up 1.3x */}
+      <Audio src={staticFile("voiceover.mp3")} volume={1} playbackRate={1.3} />
 
       {/* Scene 1: Hook (0-2s = 60 frames)
           "What if you could build anything?"
@@ -43,38 +41,38 @@ export const BuildAnythingTrailer: React.FC = () => {
         <BuildAnythingHookScene />
       </Sequence>
 
-      {/* Scene 2: Capabilities (2-9s = 210 frames)
+      {/* Scene 2: Capabilities (2-8s = 180 frames)
           "Apps. Dashboards. AI agents. Research systems. Mobile apps."
       */}
-      <Sequence from={60} durationInFrames={210}>
+      <Sequence from={60} durationInFrames={180}>
         <CapabilitiesScene />
       </Sequence>
 
-      {/* Scene 3: The Limit (9-14s = 150 frames)
+      {/* Scene 3: The Limit (8-12s = 120 frames)
           "The only question: can AI access it? If yes, you can build it."
       */}
-      <Sequence from={270} durationInFrames={150}>
+      <Sequence from={240} durationInFrames={120}>
         <LimitScene />
       </Sequence>
 
-      {/* Scene 4: Founder Story (14-29s = 450 frames)
-          Credentials + "AI won't replace you..."
+      {/* Scene 4: Founder Story (12-34s = 660 frames)
+          Credentials + Hackathon (5s) + "AI won't replace you..." (7s, ends earlier)
       */}
-      <Sequence from={420} durationInFrames={450}>
+      <Sequence from={360} durationInFrames={660}>
         <FounderStoryScene />
       </Sequence>
 
-      {/* Scene 5: Mental Model (29-37s = 240 frames)
+      {/* Scene 5: What You'll Learn (34-51s = 510 frames)
           "In this course, you'll learn the mental model..."
       */}
-      <Sequence from={870} durationInFrames={240}>
-        <MentalModelScene />
+      <Sequence from={1020} durationInFrames={510}>
+        <WhatYouLearnScene />
       </Sequence>
 
-      {/* Scene 6: Anti-Hype CTA (37-46s = 270 frames)
+      {/* Scene 6: Anti-Hype CTA (51-60s = 270 frames)
           "Master agentic coding. The skill of the decade."
       */}
-      <Sequence from={1110} durationInFrames={270}>
+      <Sequence from={1530} durationInFrames={270}>
         <AntiHypeCTAScene />
       </Sequence>
     </AbsoluteFill>

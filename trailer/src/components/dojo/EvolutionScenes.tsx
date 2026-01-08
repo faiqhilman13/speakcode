@@ -398,11 +398,11 @@ export const CatalystScene: React.FC = () => {
                 {/* Phase 1: Crossed out text */}
                 <div style={{
                     opacity: text1Opacity,
-                    marginBottom: 50,
+                    marginBottom: 60,
                     position: 'relative',
                 }}>
                     <h2 style={{
-                        fontSize: isMobile ? 32 : 48,
+                        fontSize: isMobile ? 52 : 56,
                         fontWeight: 700,
                         color: 'rgba(253, 252, 248, 0.5)',
                         fontFamily: 'Georgia, serif',
@@ -416,7 +416,7 @@ export const CatalystScene: React.FC = () => {
                         position: 'absolute',
                         top: '50%',
                         left: 0,
-                        height: 4,
+                        height: 6,
                         background: '#cc0000',
                         width: `${text1Strike}%`,
                         boxShadow: '0 0 20px rgba(204, 0, 0, 0.8)',
@@ -430,14 +430,14 @@ export const CatalystScene: React.FC = () => {
                 }}>
                     <div style={{
                         background: '#cc0000',
-                        padding: '15px 50px',
+                        padding: '20px 60px',
                         display: 'inline-block',
-                        marginBottom: 30,
+                        marginBottom: 40,
                         boxShadow: `0 0 ${60 * energyPulse}px rgba(204, 0, 0, 0.6)`,
                     }}>
                         <span style={{
                             fontFamily: 'IBM Plex Mono, monospace',
-                            fontSize: isMobile ? 14 : 18,
+                            fontSize: isMobile ? 22 : 20,
                             fontWeight: 900,
                             color: 'white',
                             letterSpacing: '0.3em',
@@ -446,7 +446,7 @@ export const CatalystScene: React.FC = () => {
                         </span>
                     </div>
                     <h1 style={{
-                        fontSize: isMobile ? 64 : 100,
+                        fontSize: isMobile ? 120 : 120,
                         fontWeight: 900,
                         color: '#fdfcf8',
                         lineHeight: 0.95,
@@ -462,14 +462,14 @@ export const CatalystScene: React.FC = () => {
                 <div style={{
                     opacity: text3Spring,
                     transform: `translateY(${(1 - text3Spring) * 40}px)`,
-                    marginTop: 60,
-                    padding: '35px 50px',
-                    border: '1px solid rgba(204, 0, 0, 0.4)',
+                    marginTop: 70,
+                    padding: '45px 60px',
+                    border: '2px solid rgba(204, 0, 0, 0.4)',
                     background: 'rgba(204, 0, 0, 0.08)',
                     backdropFilter: 'blur(10px)',
                 }}>
                     <p style={{
-                        fontSize: isMobile ? 24 : 32,
+                        fontSize: isMobile ? 42 : 40,
                         fontWeight: 600,
                         color: '#fdfcf8',
                         lineHeight: 1.5,
@@ -479,12 +479,12 @@ export const CatalystScene: React.FC = () => {
                         They <span style={{ color: '#cc0000', fontWeight: 900 }}>execute.</span>
                     </p>
                     <p style={{
-                        fontSize: isMobile ? 16 : 20,
+                        fontSize: isMobile ? 28 : 24,
                         color: 'rgba(253, 252, 248, 0.6)',
                         fontFamily: 'Georgia, serif',
                         fontStyle: 'italic',
                         margin: 0,
-                        marginTop: 15,
+                        marginTop: 20,
                     }}>
                         You describe. They build.
                     </p>
@@ -581,17 +581,17 @@ export const PeakScene: React.FC = () => {
                 }}>
                     <h3 style={{
                         fontFamily: 'IBM Plex Mono, monospace',
-                        fontSize: isMobile ? 12 : 14,
+                        fontSize: isMobile ? 18 : 16,
                         color: '#cc0000',
                         letterSpacing: '0.35em',
                         fontWeight: 800,
                         margin: 0,
-                        marginBottom: 12,
+                        marginBottom: 15,
                     }}>
                         THE_OUTPUT: VERIFIED_RESULTS
                     </h3>
                     <h1 style={{
-                        fontSize: isMobile ? 56 : 80,
+                        fontSize: isMobile ? 80 : 90,
                         fontWeight: 900,
                         color: '#1a1a1a',
                         letterSpacing: '-0.04em',

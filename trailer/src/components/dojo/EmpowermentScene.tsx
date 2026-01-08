@@ -46,19 +46,19 @@ const PhaseBadge = ({ phase, title, delay, frame, fps, isMobile }: {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: 8,
+            gap: 12,
         }}>
             <div style={{
-                width: isMobile ? 50 : 60,
-                height: isMobile ? 50 : 60,
+                width: isMobile ? 90 : 80,
+                height: isMobile ? 90 : 80,
                 borderRadius: '50%',
                 background: 'rgba(204, 0, 0, 0.15)',
-                border: '2px solid #cc0000',
+                border: '3px solid #cc0000',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontFamily: 'IBM Plex Mono, monospace',
-                fontSize: isMobile ? 14 : 18,
+                fontSize: isMobile ? 28 : 24,
                 fontWeight: 900,
                 color: '#cc0000',
             }}>
@@ -66,7 +66,7 @@ const PhaseBadge = ({ phase, title, delay, frame, fps, isMobile }: {
             </div>
             <div style={{
                 fontFamily: 'Georgia, serif',
-                fontSize: isMobile ? 14 : 16,
+                fontSize: isMobile ? 24 : 20,
                 fontStyle: 'italic',
                 color: 'rgba(253, 252, 248, 0.8)',
             }}>
@@ -84,15 +84,15 @@ export const EmpowermentScene: React.FC = () => {
     // Animation springs
     const getSpring = (delay: number) => spring({ frame: frame - delay, fps, config: { damping: 15 } });
 
-    const toriiOpacity = interpolate(frame, [0, 30], [0, 0.15], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
-    const toriiScale = interpolate(frame, [0, 60], [0.8, 1], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
+    const toriiOpacity = interpolate(frame, [0, 20], [0, 0.15], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
+    const toriiScale = interpolate(frame, [0, 40], [0.8, 1], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
 
-    const s1 = getSpring(10);  // "You have the vision"
-    const s2 = getSpring(30);  // "The idea. The drive."
-    const s3 = getSpring(55);  // Divider
-    const s4 = getSpring(70);  // "The only thing missing?"
-    const s5 = getSpring(90);  // "The method."
-    const s6 = getSpring(110); // Phase badges
+    const s1 = getSpring(5);   // "You have the vision"
+    const s2 = getSpring(18);  // "The idea. The drive."
+    const s3 = getSpring(35);  // Divider
+    const s4 = getSpring(48);  // "The only thing missing?"
+    const s5 = getSpring(62);  // "The method."
+    const s6 = getSpring(78);  // Phase badges
 
     // Background pulse
     const bgPulse = Math.sin(frame * 0.05) * 0.3 + 0.7;
@@ -171,11 +171,11 @@ export const EmpowermentScene: React.FC = () => {
                 {/* Label */}
                 <div style={{
                     fontFamily: 'IBM Plex Mono, monospace',
-                    fontSize: isMobile ? 12 : 14,
+                    fontSize: isMobile ? 18 : 16,
                     color: '#cc0000',
                     letterSpacing: '0.4em',
                     fontWeight: 800,
-                    marginBottom: 30,
+                    marginBottom: 40,
                     opacity: s1,
                     transform: `translateY(${(1 - s1) * 20}px)`,
                 }}>
@@ -184,13 +184,13 @@ export const EmpowermentScene: React.FC = () => {
 
                 {/* Mirror the viewer's state */}
                 <h1 style={{
-                    fontSize: isMobile ? 56 : 80,
+                    fontSize: isMobile ? 90 : 100,
                     fontWeight: 900,
                     color: '#fdfcf8',
                     lineHeight: 1.05,
                     letterSpacing: '-0.03em',
                     margin: 0,
-                    marginBottom: 10,
+                    marginBottom: 15,
                     opacity: s1,
                     transform: `translateY(${(1 - s1) * 20}px)`,
                 }}>
@@ -198,7 +198,7 @@ export const EmpowermentScene: React.FC = () => {
                 </h1>
 
                 <h2 style={{
-                    fontSize: isMobile ? 36 : 52,
+                    fontSize: isMobile ? 56 : 64,
                     fontWeight: 700,
                     color: 'rgba(253, 252, 248, 0.7)',
                     lineHeight: 1.2,
@@ -211,10 +211,10 @@ export const EmpowermentScene: React.FC = () => {
 
                 {/* Divider */}
                 <div style={{
-                    width: isMobile ? 80 : 120,
-                    height: 4,
+                    width: isMobile ? 120 : 150,
+                    height: 5,
                     background: '#cc0000',
-                    margin: '40px 0',
+                    margin: '50px 0',
                     opacity: s3,
                     transform: `scaleX(${s3})`,
                     boxShadow: '0 0 20px rgba(204, 0, 0, 0.5)',
@@ -226,12 +226,12 @@ export const EmpowermentScene: React.FC = () => {
                     transform: `translateY(${(1 - s4) * 20}px)`,
                 }}>
                     <p style={{
-                        fontSize: isMobile ? 24 : 32,
+                        fontSize: isMobile ? 38 : 40,
                         color: 'rgba(253, 252, 248, 0.6)',
                         fontFamily: 'Georgia, serif',
                         fontStyle: 'italic',
                         margin: 0,
-                        marginBottom: 15,
+                        marginBottom: 20,
                     }}>
                         The only thing missing?
                     </p>
@@ -242,7 +242,7 @@ export const EmpowermentScene: React.FC = () => {
                     transform: `scale(${0.9 + s5 * 0.1})`,
                 }}>
                     <h2 style={{
-                        fontSize: isMobile ? 64 : 90,
+                        fontSize: isMobile ? 110 : 110,
                         fontWeight: 900,
                         color: '#cc0000',
                         lineHeight: 1,
@@ -261,17 +261,17 @@ export const EmpowermentScene: React.FC = () => {
                     opacity: s6,
                     transform: `translateY(${(1 - s6) * 30}px)`,
                 }}>
-                    <PhaseBadge phase="01" title="Mind" delay={115} frame={frame} fps={fps} isMobile={isMobile} />
-                    <PhaseBadge phase="02" title="Blade" delay={125} frame={frame} fps={fps} isMobile={isMobile} />
-                    <PhaseBadge phase="03" title="Strike" delay={135} frame={frame} fps={fps} isMobile={isMobile} />
+                    <PhaseBadge phase="01" title="Mind" delay={82} frame={frame} fps={fps} isMobile={isMobile} />
+                    <PhaseBadge phase="02" title="Blade" delay={90} frame={frame} fps={fps} isMobile={isMobile} />
+                    <PhaseBadge phase="03" title="Strike" delay={98} frame={frame} fps={fps} isMobile={isMobile} />
                 </div>
 
                 {/* Subtext */}
                 <div style={{
-                    marginTop: 30,
-                    opacity: interpolate(frame, [130, 150], [0, 1], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' }),
+                    marginTop: 40,
+                    opacity: interpolate(frame, [100, 115], [0, 1], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' }),
                     fontFamily: 'IBM Plex Mono, monospace',
-                    fontSize: isMobile ? 12 : 14,
+                    fontSize: isMobile ? 20 : 18,
                     color: 'rgba(253, 252, 248, 0.4)',
                     letterSpacing: '0.2em',
                 }}>
@@ -288,7 +288,7 @@ export const EmpowermentScene: React.FC = () => {
                 height: 3,
                 background: 'rgba(204, 0, 0, 0.5)',
                 boxShadow: '0 0 30px #cc0000',
-                transform: `translateY(${interpolate(frame, [0, 150], [0, height])}px)`,
+                transform: `translateY(${interpolate(frame, [0, 120], [0, height])}px)`,
                 zIndex: 20,
             }} />
 
@@ -300,7 +300,7 @@ export const EmpowermentScene: React.FC = () => {
                 right: 0,
                 height: 1,
                 background: 'rgba(253, 252, 248, 0.2)',
-                transform: `translateY(${interpolate(frame, [0, 150], [height * 0.3, height * 1.3])}px)`,
+                transform: `translateY(${interpolate(frame, [0, 120], [height * 0.3, height * 1.3])}px)`,
                 zIndex: 20,
             }} />
 

@@ -43,7 +43,7 @@ export const DojoTrailerVertical: React.FC = () => {
             <Audio src={staticFile("lofi-piano-beat.mp3")} volume={0.2} />
 
             {/* Dojo Voiceover - generated specifically for DojoTrailerVertical */}
-            <Audio src={staticFile("dojo-voiceover.mp3")} volume={1} playbackRate={1.3} />
+            <Audio src={staticFile("dojo-voiceover.mp3")} volume={1} playbackRate={1.2} />
 
             {/* 1. Intro: The Vision (0-4s) */}
             <Sequence from={0} durationInFrames={120}>
@@ -65,28 +65,28 @@ export const DojoTrailerVertical: React.FC = () => {
                 <OriginScene />
             </Sequence>
 
-            {/* 5. The Catalyst: Agentic Shift (21-25s) - Reduced 4s */}
-            <Sequence from={630} durationInFrames={120}>
+            {/* 5. The Catalyst: Agentic Shift (21-27s) - 6s */}
+            <Sequence from={630} durationInFrames={180}>
                 <CatalystScene />
             </Sequence>
 
-            {/* 6. The Proof: The Battle Record (25-33s) - Extended 2s */}
-            <Sequence from={750} durationInFrames={240}>
+            {/* 6. The Proof: The Battle Record (27-37s) - 10s */}
+            <Sequence from={810} durationInFrames={300}>
                 <PeakScene />
             </Sequence>
 
-            {/* 7. Empowerment: Your Turn (33-38s) */}
-            <Sequence from={990} durationInFrames={150}>
+            {/* 7. Empowerment: Your Turn (37-41s) - 4s */}
+            <Sequence from={1110} durationInFrames={120}>
                 <EmpowermentScene />
             </Sequence>
 
-            {/* 8. The Mastery: Curriculum (38-44s) */}
-            <Sequence from={1140} durationInFrames={180}>
+            {/* 8. The Mastery: Curriculum (41-47s) - 6s */}
+            <Sequence from={1230} durationInFrames={180}>
                 <MasteryScene />
             </Sequence>
 
-            {/* 9. CTA: Join the Protocol (44-49s) */}
-            <Sequence from={1320} durationInFrames={150}>
+            {/* 9. CTA: Join the Protocol (47-54s) - 7s */}
+            <Sequence from={1410} durationInFrames={210}>
                 <CTAScene />
             </Sequence>
         </AbsoluteFill>

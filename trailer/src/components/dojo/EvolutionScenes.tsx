@@ -243,21 +243,20 @@ export const OriginScene: React.FC = () => {
                     transform: `scale(${0.9 + credentialsSpring * 0.1})`,
                 }}>
                     <div style={{
-                        fontSize: isMobile ? 120 : 160,
+                        fontSize: isMobile ? 180 : 200,
                         fontWeight: 900,
                         color: '#cc0000',
                         lineHeight: 1,
-                        fontVariantNumeric: 'tabular-nums',
                         textShadow: '0 10px 40px rgba(204, 0, 0, 0.3)',
                     }}>
-                        {hoursWasted}
+                        ∞
                     </div>
                     <div style={{
                         fontFamily: 'IBM Plex Mono, monospace',
-                        fontSize: isMobile ? 14 : 18,
+                        fontSize: isMobile ? 28 : 24,
                         color: '#5a5a5a',
                         letterSpacing: '0.3em',
-                        marginTop: 10,
+                        marginTop: 15,
                     }}>
                         HOURS ON BOILERPLATE
                     </div>

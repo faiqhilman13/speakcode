@@ -6,6 +6,12 @@ import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig, Img
  * Scene 4: OriginScene - The Struggle (relatable dev frustrations)
  * Scene 5: CatalystScene - The Realization (agents are REAL)
  * Scene 6: PeakScene - The Proof (animated achievements)
+ *
+ * DESIGN UPDATES 2026-01-10:
+ * - Updated fonts to Satoshi/Playfair/JetBrains Mono
+ * - Enhanced glitch and chromatic aberration effects
+ * - Added asymmetric layouts
+ * - Improved parallax and camera movement
  */
 
 // ============================================
@@ -177,12 +183,12 @@ export const OriginScene: React.FC = () => {
 
     return (
         <AbsoluteFill style={{ background: "#fdfcf8", overflow: 'hidden' }}>
-            {/* Architectural Underlay */}
+            {/* Architectural Underlay - Enhanced Ken Burns */}
             <div style={{
                 position: 'absolute',
                 inset: 0,
                 opacity: 0.2, // Increased as requested
-                transform: `scale(${1 + frame * 0.0001})`,
+                transform: `scale(${1.05 + frame * 0.0003}) translateX(${frame * 0.02}px)`,
                 filter: 'grayscale(1)'
             }}>
                 <Img src={staticFile("dojo-blueprint.png")} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -210,18 +216,19 @@ export const OriginScene: React.FC = () => {
                 <div style={{ opacity: mainSpring, transform: `translateY(${(1 - mainSpring) * -30}px)` }}>
                     <div style={{
                         background: '#1a1a1a',
-                        padding: '8px 20px',
+                        padding: '12px 30px',
                         display: 'inline-block',
-                        marginBottom: 25
+                        marginBottom: 30
                     }}>
                         <h3 style={{
                             fontFamily: 'IBM Plex Mono, monospace',
-                            fontSize: isMobile ? 12 : 14,
+                            fontSize: isMobile ? 24 : 20,
                             color: '#fdfcf8',
                             letterSpacing: '0.35em',
-                            margin: 0
+                            margin: 0,
+                            fontWeight: 800
                         }}>
-                            LEVEL_00: THE_PROFESSIONAL
+                            MY STORY
                         </h3>
                     </div>
                     <h1 style={{
@@ -232,7 +239,7 @@ export const OriginScene: React.FC = () => {
                         letterSpacing: '-0.05em',
                         margin: 0
                     }}>
-                        THE <br /> <span style={{ color: '#cc0000' }}>CEILING.</span>
+                        I HIT A <br /> <span style={{ color: '#cc0000' }}>CEILING.</span>
                     </h1>
                 </div>
 
@@ -262,14 +269,15 @@ export const OriginScene: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Credentials + Punch */}
+                {/* Credentials + Punch - Asymmetric positioning */}
                 <div style={{
                     background: 'rgba(255, 255, 255, 0.95)',
                     padding: isMobile ? '30px' : '40px',
                     borderLeft: '8px solid #1a1a1a',
                     boxShadow: '0 30px 60px rgba(0,0,0,0.12)',
                     opacity: punchSpring,
-                    transform: `translateY(${(1 - punchSpring) * 40}px)`,
+                    transform: `translateY(${(1 - punchSpring) * 40}px) translateX(${isMobile ? '-15px' : '-30px'}) rotate(-0.5deg)`,
+                    marginRight: isMobile ? '30px' : '80px',
                 }}>
                     <div style={{
                         fontFamily: 'IBM Plex Mono, monospace',
@@ -292,7 +300,7 @@ export const OriginScene: React.FC = () => {
                         MSc. Big 4 Consultant. Tech Lead.
                     </h3>
                     <p style={{
-                        fontFamily: 'Georgia, serif',
+                        fontFamily: 'Playfair Display, serif',
                         fontSize: isMobile ? 18 : 22,
                         fontStyle: 'italic',
                         color: '#5a5a5a',
@@ -404,7 +412,7 @@ export const CatalystScene: React.FC = () => {
                         fontSize: isMobile ? 52 : 56,
                         fontWeight: 700,
                         color: 'rgba(253, 252, 248, 0.5)',
-                        fontFamily: 'Georgia, serif',
+                        fontFamily: 'Playfair Display, serif',
                         fontStyle: 'italic',
                         margin: 0,
                     }}>
@@ -480,7 +488,7 @@ export const CatalystScene: React.FC = () => {
                     <p style={{
                         fontSize: isMobile ? 28 : 24,
                         color: 'rgba(253, 252, 248, 0.6)',
-                        fontFamily: 'Georgia, serif',
+                        fontFamily: 'Playfair Display, serif',
                         fontStyle: 'italic',
                         margin: 0,
                         marginTop: 20,
@@ -518,6 +526,9 @@ export const CatalystScene: React.FC = () => {
 
 // ============================================
 // SCENE 6: PEAK SCENE - THE PROOF (FILL VIEWPORT)
+// "I haven't written a line of code in 10 months"
+// Style: Matches Scene 4 & 8 (cream bg, white cards, blueprint underlay)
+// UPDATED: Significantly larger text and components for mobile
 // ============================================
 
 export const PeakScene: React.FC = () => {
@@ -527,289 +538,222 @@ export const PeakScene: React.FC = () => {
 
     const headerSpring = spring({ frame, fps, config: { damping: 15 } });
 
-    // Timings
-    const heroDelay = 30;
-    const stat1Delay = 80;
-    const stat2Delay = 120;
-    const stat3Delay = 160;
-    const transformDelay = 200;
+    // Staggered timings for dramatic reveal
+    const hookDelay = 5;
+    const stat1Delay = 50;
+    const stat2Delay = 80;
+    const stat3Delay = 110;
+    const stat4Delay = 140;
+    const stat5Delay = 170;
+    const punchDelay = 230;
 
-    // Impact shake
-    const getShake = (delay: number) => {
-        const elapsed = frame - delay;
-        if (elapsed > 0 && elapsed < 20) {
-            return Math.sin(elapsed * 2) * (20 - elapsed) * 0.5;
-        }
-        return 0;
-    };
+    // Ken Burns on background
+    const bgZoom = interpolate(frame, [0, 300], [1.05, 1.15]);
+    const bgPanX = interpolate(frame, [0, 300], [0, -20]);
+
+    // Stats data - 5 hero achievements
+    const stats = [
+        { value: 5, prefix: "TOP ", suffix: "", label: "ASEAN AI HACKATHON", sublabel: "Solo dev vs 150+ teams", color: "#cc0000", delay: stat1Delay },
+        { value: 100, prefix: "", suffix: "K+", label: "LINES SHIPPED", sublabel: "Enterprise production code", color: "#1a1a1a", delay: stat2Delay },
+        { value: 30, prefix: "", suffix: "K+", label: "USERS SERVED", sublabel: "Enterprise AI platform", color: "#cc0000", delay: stat3Delay },
+        { value: 50, prefix: "", suffix: "+", label: "PERSON TEAM", sublabel: "App engineer lead", color: "#1a1a1a", delay: stat4Delay },
+        { value: 2, prefix: "", suffix: " WKS", label: "AHEAD OF SCHEDULE", sublabel: "Fastest UAT ever", color: "#cc0000", delay: stat5Delay },
+    ];
 
     return (
         <AbsoluteFill style={{ background: "#fdfcf8", overflow: 'hidden' }}>
-            {/* Background image */}
+            {/* Background Asset: Agent Swarm Blueprint - Ken Burns */}
             <div style={{
                 position: 'absolute',
                 inset: 0,
-                opacity: 0.25,
-                transform: `scale(${1 + frame * 0.0002})`
+                opacity: 0.35,
+                transform: `scale(${bgZoom}) translateX(${bgPanX}px)`,
             }}>
                 <Img src={staticFile("dojo-swarm.jpg")} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
 
-            {/* Grid pattern */}
+            {/* Subtle grid pattern */}
             <div style={{
                 position: 'absolute',
                 inset: 0,
-                backgroundImage: 'linear-gradient(rgba(204,0,0,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(204,0,0,0.12) 1px, transparent 1px)',
+                backgroundImage: 'linear-gradient(rgba(204,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(204,0,0,0.06) 1px, transparent 1px)',
                 backgroundSize: '50px 50px',
-                zIndex: 1
             }} />
 
-            {/* Main content - USE FULL HEIGHT with justify-between */}
+            {/* Main content */}
             <div style={{
                 zIndex: 100,
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between',
                 height: '100%',
-                padding: isMobile ? '40px 30px' : '50px 70px',
+                padding: isMobile ? '70px 50px' : '60px 70px',
             }}>
-                {/* TOP SECTION: Header */}
+                {/* THE HOOK - "Zero lines of code" revelation */}
                 <div style={{
-                    opacity: headerSpring,
-                    transform: `translateY(${(1 - headerSpring) * -20}px)`
+                    opacity: spring({ frame: frame - hookDelay, fps, config: { damping: 12 } }),
+                    transform: `translateY(${(1 - spring({ frame: frame - hookDelay, fps, config: { damping: 12 } })) * -30}px)`,
+                    marginBottom: isMobile ? 30 : 25,
                 }}>
-                    <h3 style={{
-                        fontFamily: 'IBM Plex Mono, monospace',
-                        fontSize: isMobile ? 18 : 16,
-                        color: '#cc0000',
-                        letterSpacing: '0.35em',
-                        fontWeight: 800,
-                        margin: 0,
-                        marginBottom: 15,
-                    }}>
-                        THE_OUTPUT: VERIFIED_RESULTS
-                    </h3>
-                    <h1 style={{
-                        fontSize: isMobile ? 80 : 90,
-                        fontWeight: 900,
-                        color: '#1a1a1a',
-                        letterSpacing: '-0.04em',
-                        lineHeight: 1,
-                        margin: 0,
-                    }}>
-                        Proof of the <span style={{ color: '#cc0000' }}>Agentic Path.</span>
-                    </h1>
-                </div>
-
-                {/* MIDDLE SECTION: Hero stat + secondary stats */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 15 : 20 }}>
-                    {/* HERO: Top 5 - MASSIVE */}
+                    {/* Badge - matches Scene 4 style */}
                     <div style={{
                         background: '#1a1a1a',
-                        padding: isMobile ? '50px 40px' : '60px 70px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: isMobile ? 30 : 60,
-                        opacity: spring({ frame: frame - heroDelay, fps, config: { damping: 20, stiffness: 60 } }),
-                        transform: `translateY(${(1 - spring({ frame: frame - heroDelay, fps, config: { damping: 20, stiffness: 60 } })) * 40}px) translateX(${getShake(heroDelay + 15)}px)`,
+                        padding: isMobile ? '16px 32px' : '10px 20px',
+                        display: 'inline-block',
+                        marginBottom: 25,
                     }}>
-                        <div style={{
-                            fontSize: isMobile ? 160 : 200,
-                            fontWeight: 900,
-                            color: '#cc0000',
-                            lineHeight: 0.8,
-                            textShadow: '0 0 80px rgba(204, 0, 0, 0.4)',
+                        <span style={{
+                            fontFamily: 'IBM Plex Mono, monospace',
+                            fontSize: isMobile ? 26 : 14,
+                            fontWeight: 800,
+                            color: '#fdfcf8',
+                            letterSpacing: '0.25em',
                         }}>
-                            <AnimatedCounter target={5} delay={heroDelay + 5} frame={frame} fps={fps} prefix="TOP " />
-                        </div>
-                        <div style={{ flex: 1 }}>
-                            <div style={{
-                                fontFamily: 'IBM Plex Mono, monospace',
-                                fontSize: isMobile ? 18 : 22,
-                                color: '#cc0000',
-                                letterSpacing: '0.2em',
-                                fontWeight: 800,
-                                marginBottom: 12,
-                            }}>
-                                ASEAN AI HACKATHON
-                            </div>
-                            <p style={{
-                                fontFamily: 'Georgia, serif',
-                                fontSize: isMobile ? 24 : 32,
-                                fontStyle: 'italic',
-                                color: 'rgba(253, 252, 248, 0.85)',
-                                margin: 0,
-                                lineHeight: 1.3,
-                            }}>
-                                Solo orchestrator outpacing 150+ participants from elite corporate teams.
-                            </p>
-                        </div>
+                            THE_PROOF
+                        </span>
                     </div>
 
-                    {/* Secondary stats - STACKED FOR MOBILE, COMPACT, MASSIVE TEXT */}
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: isMobile ? 'column' : 'row',
-                        gap: isMobile ? 12 : 18,
-                        alignItems: isMobile ? 'center' : 'stretch'
+                    {/* Main hook headline - MUCH LARGER */}
+                    <h1 style={{
+                        fontSize: isMobile ? 82 : 68,
+                        fontWeight: 900,
+                        color: '#1a1a1a',
+                        letterSpacing: '-0.03em',
+                        lineHeight: 1.0,
+                        margin: 0,
                     }}>
-                        {[
-                            { value: 100, suffix: "K+", label: "Lines of Code", sublabel: "Enterprise platform", color: "#cc0000", delay: stat1Delay },
-                            { value: 30, suffix: "K+", label: "Users Served", sublabel: "Production system", color: "#1a1a1a", delay: stat2Delay },
-                            { value: 40, suffix: "", label: "Team Members", sublabel: "Led as App Lead", color: "#cc0000", delay: stat3Delay },
-                        ].map((stat, i) => {
-                            const s = spring({ frame: frame - stat.delay, fps, config: { damping: 20, stiffness: 60 } });
-                            return (
-                                <div
-                                    key={i}
-                                    style={{
-                                        flex: isMobile ? 'none' : 1,
-                                        width: isMobile ? 'fit-content' : 'auto',
-                                        minWidth: isMobile ? '85%' : 'auto',
-                                        background: 'rgba(255, 255, 255, 0.98)',
-                                        padding: isMobile ? '20px 30px' : '45px 35px',
-                                        borderLeft: `10px solid ${stat.color}`,
-                                        boxShadow: '0 15px 40px rgba(0,0,0,0.06)',
-                                        opacity: s,
-                                        transform: `translateY(${(1 - s) * 30}px)`,
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        gap: 25
-                                    }}
-                                >
-                                    <div style={{
-                                        fontSize: isMobile ? 100 : 85,
-                                        fontWeight: 900,
-                                        color: stat.color,
-                                        lineHeight: 1,
-                                        minWidth: isMobile ? 160 : 'auto'
-                                    }}>
-                                        <AnimatedCounter target={stat.value} delay={stat.delay + 5} frame={frame} fps={fps} suffix={stat.suffix} />
-                                    </div>
-                                    <div>
-                                        <div style={{
-                                            fontFamily: 'IBM Plex Mono, monospace',
-                                            fontSize: isMobile ? 22 : 14,
-                                            color: stat.color,
-                                            letterSpacing: '0.12em',
-                                            fontWeight: 900,
-                                            marginBottom: 4,
-                                            textTransform: 'uppercase',
-                                        }}>
-                                            {stat.label}
-                                        </div>
-                                        <p style={{
-                                            fontFamily: 'Georgia, serif',
-                                            fontSize: isMobile ? 28 : 18,
-                                            fontStyle: 'italic',
-                                            color: '#5a5a5a',
-                                            margin: 0,
-                                            lineHeight: 1.1
-                                        }}>
-                                            {stat.sublabel}
-                                        </p>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
+                        I've written zero code<br />
+                        in <span style={{ color: '#cc0000' }}>10 months.</span>
+                    </h1>
+
+                    <p style={{
+                        fontFamily: 'Playfair Display, serif',
+                        fontSize: isMobile ? 48 : 32,
+                        fontStyle: 'italic',
+                        color: '#5a5a5a',
+                        margin: 0,
+                        marginTop: 25,
+                    }}>
+                        Yet I shipped all of this:
+                    </p>
                 </div>
 
-                {/* BOTTOM SECTION: Transformation bar - MASSIVE & CENTERED */}
+                {/* STATS GRID - 5 achievements as cards - MUCH LARGER */}
                 <div style={{
-                    background: '#1a1a1a',
-                    padding: isMobile ? '40px 30px' : '35px 50px',
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'center',
+                    gap: isMobile ? 18 : 10,
+                    flex: 1,
                     justifyContent: 'center',
-                    width: isMobile ? '92%' : 'auto',
-                    margin: '0 auto',
-                    border: '3px solid rgba(253, 252, 248, 0.2)',
-                    boxShadow: '0 40px 100px rgba(0,0,0,0.7)',
-                    opacity: spring({ frame: frame - transformDelay, fps, config: { damping: 20, stiffness: 60 } }),
-                    transform: `translateY(${(1 - spring({ frame: frame - transformDelay, fps, config: { damping: 20, stiffness: 60 } })) * 20}px)`,
                 }}>
-                    <div style={{ width: '100%', textAlign: 'center' }}>
-                        <div style={{
-                            fontFamily: 'IBM Plex Mono, monospace',
-                            fontSize: isMobile ? 18 : 13,
-                            color: '#cc0000',
-                            letterSpacing: '0.4em',
-                            fontWeight: 900,
-                            marginBottom: 30,
-                        }}>
-                            SYSTEM_TRANSFORMATION
-                        </div>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: isMobile ? 40 : 50
-                        }}>
-                            <div style={{ textAlign: 'center' }}>
-                                <div style={{ fontSize: isMobile ? 16 : 10, color: 'rgba(253,252,248,0.5)', fontFamily: 'IBM Plex Mono, monospace', marginBottom: 10, letterSpacing: '0.1em' }}>6_MONTHS_AGO</div>
-                                <div style={{ fontSize: isMobile ? 36 : 28, fontWeight: 900, color: 'rgba(253,252,248,0.4)', textDecoration: 'line-through', lineHeight: 1.1 }}>Stuck on <br /> features</div>
-                            </div>
-                            <div style={{ fontSize: isMobile ? 48 : 32, color: '#cc0000', fontWeight: 900 }}>→</div>
-                            <div style={{ textAlign: 'center' }}>
-                                <div style={{ fontSize: isMobile ? 16 : 10, color: '#cc0000', fontFamily: 'IBM Plex Mono, monospace', marginBottom: 10, letterSpacing: '0.1em' }}>TODAY</div>
-                                <div style={{ fontSize: isMobile ? 36 : 28, fontWeight: 900, color: '#fdfcf8', lineHeight: 1.1 }}>Shipping <br /> systems</div>
-                            </div>
-                        </div>
-                    </div>
+                    {stats.map((stat, i) => {
+                        const s = spring({ frame: frame - stat.delay, fps, config: { damping: 15 } });
+                        const isLeft = i % 2 === 0;
+                        
+                        return (
+                            <div
+                                key={i}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: isMobile ? 30 : 25,
+                                    background: 'rgba(255, 255, 255, 0.95)',
+                                    backdropFilter: 'blur(10px)',
+                                    padding: isMobile ? '28px 35px' : '20px 30px',
+                                    borderLeft: `10px solid ${stat.color}`,
+                                    border: '1px solid rgba(0,0,0,0.08)',
+                                    boxShadow: '0 12px 40px rgba(0,0,0,0.08)',
+                                    opacity: s,
+                                    transform: `translateY(${(1 - s) * 30}px) translateX(${isLeft ? '-8px' : '8px'}) rotate(${isLeft ? -0.3 : 0.3}deg)`,
+                                    marginLeft: isLeft ? 0 : (isMobile ? '4%' : '10%'),
+                                    marginRight: isLeft ? (isMobile ? '4%' : '10%') : 0,
+                                }}
+                            >
+                                {/* Big number - MUCH LARGER */}
+                                <div style={{
+                                    fontSize: isMobile ? 90 : 52,
+                                    fontWeight: 900,
+                                    color: stat.color,
+                                    lineHeight: 1,
+                                    minWidth: isMobile ? 200 : 140,
+                                    textShadow: stat.color === '#cc0000' ? '0 4px 20px rgba(204, 0, 0, 0.2)' : 'none',
+                                }}>
+                                    <AnimatedCounter 
+                                        target={stat.value} 
+                                        delay={stat.delay + 5} 
+                                        frame={frame} 
+                                        fps={fps} 
+                                        prefix={stat.prefix}
+                                        suffix={stat.suffix} 
+                                    />
+                                </div>
 
-                    {/* Stamp */}
-                    <div style={{
-                        opacity: spring({ frame: frame - transformDelay - 20, fps }),
-                        transform: `scale(${isMobile ? 1.1 : 1}) rotate(${isMobile ? -2 : -6}deg)`,
-                        marginTop: 35
-                    }}>
-                        <div style={{
-                            border: '4px solid #cc0000',
-                            borderRadius: 8,
-                            padding: isMobile ? '15px 30px' : '18px 28px',
-                            background: 'rgba(253, 252, 248, 0.98)',
-                        }}>
-                            <div style={{
-                                fontFamily: 'IBM Plex Mono, monospace',
-                                fontSize: isMobile ? 20 : 15,
-                                fontWeight: 900,
-                                color: '#cc0000',
-                                letterSpacing: '0.1em',
-                                textAlign: 'center',
-                                lineHeight: 1.1
-                            }}>
-                                VERIFIED_PATH
+                                {/* Labels - MUCH LARGER */}
+                                <div style={{ flex: 1 }}>
+                                    <div style={{
+                                        fontFamily: 'IBM Plex Mono, monospace',
+                                        fontSize: isMobile ? 24 : 12,
+                                        color: stat.color,
+                                        letterSpacing: '0.12em',
+                                        fontWeight: 800,
+                                        marginBottom: 8,
+                                    }}>
+                                        {stat.label}
+                                    </div>
+                                    <p style={{
+                                        fontFamily: 'Playfair Display, serif',
+                                        fontSize: isMobile ? 30 : 17,
+                                        fontStyle: 'italic',
+                                        color: '#5a5a5a',
+                                        margin: 0,
+                                        lineHeight: 1.2
+                                    }}>
+                                        {stat.sublabel}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        );
+                    })}
+                </div>
+
+                {/* BOTTOM PUNCHLINE - MUCH LARGER - Pushed up for mobile safe zone */}
+                <div style={{
+                    opacity: spring({ frame: frame - punchDelay, fps, config: { damping: 15 } }),
+                    transform: `translateY(${(1 - spring({ frame: frame - punchDelay, fps, config: { damping: 15 } })) * 20}px)`,
+                    textAlign: 'center',
+                    marginTop: isMobile ? 15 : 20,
+                    marginBottom: isMobile ? 120 : 0,
+                    borderTop: '3px solid rgba(0,0,0,0.08)',
+                    paddingTop: isMobile ? '25px' : '25px',
+                }}>
+                    <p style={{
+                        fontFamily: 'Playfair Display, serif',
+                        fontSize: isMobile ? 42 : 26,
+                        fontStyle: 'italic',
+                        color: '#1a1a1a',
+                        margin: 0,
+                        lineHeight: 1.3,
+                    }}>
+                        "Agents did the coding.<br />
+                        <span style={{ color: '#cc0000', fontWeight: 700, fontStyle: 'normal' }}>I did the thinking.</span>"
+                    </p>
                 </div>
             </div>
 
             {/* Corner accents */}
             <div style={{
                 position: 'absolute',
-                top: 20,
-                right: 20,
-                width: 50,
-                height: 50,
-                borderTop: '3px solid rgba(204, 0, 0, 0.15)',
-                borderRight: '3px solid rgba(204, 0, 0, 0.15)',
+                top: 35,
+                right: 35,
+                fontFamily: 'IBM Plex Mono, monospace',
+                fontSize: isMobile ? 16 : 10,
+                color: 'rgba(0,0,0,0.25)',
+                textAlign: 'right',
+                lineHeight: 1.8,
                 opacity: headerSpring,
-            }} />
-            <div style={{
-                position: 'absolute',
-                top: 20,
-                left: 20,
-                width: 50,
-                height: 50,
-                borderTop: '3px solid rgba(204, 0, 0, 0.15)',
-                borderLeft: '3px solid rgba(204, 0, 0, 0.15)',
-                opacity: headerSpring,
-            }} />
+            }}>
+                STATUS: [VERIFIED]<br />
+                METHOD: AGENTIC
+            </div>
         </AbsoluteFill>
     );
 };

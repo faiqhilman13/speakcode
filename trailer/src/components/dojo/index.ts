@@ -9,3 +9,4 @@ export * from './IdentityScene';
 export * from './BattleRecordsScene';
 export * from './EvolutionScenes';
 export * from './EmpowermentScene';
+export * from './Transitions';

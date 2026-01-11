@@ -8,6 +8,9 @@ import { VerticalTrailer } from "./VerticalTrailer";
 import { BuildAnythingTrailer } from "./BuildAnythingTrailer";
 import { DojoTrailer } from "./DojoTrailer";
 import { DojoTrailerVertical } from "./DojoTrailerVertical";
+import { ConstellationTrailer } from "./ConstellationTrailer";
+import { SamuraiFuturismTrailer } from "./SamuraiFuturismTrailer";
+import { DojoEpicTrailer } from "./DojoEpicTrailer";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -99,6 +102,36 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1080}
         height={1920}
+      />
+
+      {/* NEW: Constellation/Neural Network Theme Trailer */}
+      <Composition
+        id="ConstellationTrailer"
+        component={ConstellationTrailer}
+        durationInFrames={1080}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+
+      {/* NEW: Samurai x Futuristic "Agentic Dojo" Trailer */}
+      <Composition
+        id="SamuraiFuturismTrailer"
+        component={SamuraiFuturismTrailer}
+        durationInFrames={1110}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+
+      {/* EPIC: Asset-Rich Dojo Trailer with all generated images */}
+      <Composition
+        id="DojoEpicTrailer"
+        component={DojoEpicTrailer}
+        durationInFrames={1290}
+        fps={30}
+        width={1920}
+        height={1080}
       />
     </>
   );

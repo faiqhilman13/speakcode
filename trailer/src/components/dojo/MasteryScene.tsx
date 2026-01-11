@@ -113,19 +113,19 @@ export const MasteryScene: React.FC = () => {
                     <CurriculumCard
                         phase="PHASE 01"
                         title="THE MIND"
-                        items={['Mental Models for Agentic Thinking', 'Problem Decomposition Protocols', 'System Flow Architecture']}
+                        items={['Think in systems, not syntax', 'Problem decomposition protocols', 'From notebooks to enterprise codebases']}
                         delay={22} fps={fps} frame={frame} isMobile={isMobile}
                     />
                     <CurriculumCard
                         phase="PHASE 02"
                         title="THE BLADE"
-                        items={['Skills, MCPs & Custom Workflows', 'Developer Setups, Cost Optimization', 'Agent Harnesses & LLMs']}
+                        items={['Master MCPs, skills & workflows', 'Ship features without learning new languages', 'Agent orchestration & LLM patterns']}
                         delay={45} fps={fps} frame={frame} isMobile={isMobile}
                     />
                     <CurriculumCard
                         phase="PHASE 03"
                         title="THE STRIKE"
-                        items={['Production-Ready Routing', 'Scaling Agentic Workflows', 'The Live Build Project']}
+                        items={['Production-ready in days, not months', 'Handle 100K+ LOC codebases', 'The live build: idea to deployed']}
                         delay={68} fps={fps} frame={frame} isMobile={isMobile}
                     />
                 </div>

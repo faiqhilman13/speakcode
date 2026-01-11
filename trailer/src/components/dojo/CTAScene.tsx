@@ -121,7 +121,7 @@ export const CTAScene: React.FC = () => {
                     margin: 0,
                     marginTop: 38,
                 }}>
-                    Build anything. Just orchestrate.
+                    Build anything. <span style={{ color: '#cc0000', fontStyle: 'normal', fontWeight: 700 }}>No CS degree required.</span>
                 </p>
 
                 {/* CTA Button with pulsing glow */}
@@ -161,7 +161,7 @@ export const CTAScene: React.FC = () => {
                 opacity: spring({ frame: frame - 80, fps }),
             }}>
                 PROTOCOL 01 // 2026 <br />
-                NO CS DEGREE REQUIRED.
+                FROM ZERO CODE TO SENIOR ENGINEER.
             </div>
 
             {/* Corner accents */}

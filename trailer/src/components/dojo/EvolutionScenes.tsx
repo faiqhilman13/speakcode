@@ -39,7 +39,7 @@ const AnimatedCounter = ({ target, delay, frame, fps, suffix = "", prefix = "" }
 
 // Frustration bar - replaces abstract error bars
 const FrustrationBar = ({ text, delay, frame, fps, top, rotation }: {
-    text: string, delay: number, frame: number, fps: number, top: string, rotation: number
+    text: string, delay: number, frame: number, fps: number, top: string | number, rotation: number
 }) => {
     const s = spring({ frame: frame - delay, fps, config: { damping: 12 } });
     const glitch = Math.sin((frame - delay) * 0.5) * 2;
@@ -52,9 +52,9 @@ const FrustrationBar = ({ text, delay, frame, fps, top, rotation }: {
             width: '110%',
             background: 'linear-gradient(90deg, #cc0000 0%, #990000 50%, #cc0000 100%)',
             color: 'white',
-            padding: '18px 50px',
+            padding: '22px 50px',
             fontFamily: 'IBM Plex Mono, monospace',
-            fontSize: 18,
+            fontSize: 26,
             fontWeight: 700,
             letterSpacing: '0.1em',
             transform: `rotate(${rotation}deg) scaleX(${s}) translateX(${glitch}px)`,
@@ -197,20 +197,20 @@ export const OriginScene: React.FC = () => {
             {/* Drowning code background */}
             <DrowningCodeWall frame={frame} />
 
-            {/* Frustration bars with relatable text */}
-            <FrustrationBar text="Stack Overflow: 47 tabs open" delay={8} frame={frame} fps={fps} top="18%" rotation={-4} />
-            <FrustrationBar text="Tutorial: Day 73. Still confused." delay={20} frame={frame} fps={fps} top="38%" rotation={2.5} />
-            <FrustrationBar text="Deadline: Yesterday" delay={32} frame={frame} fps={fps} top="58%" rotation={-1.5} />
-            <FrustrationBar text="Dependencies: Broken. Again." delay={44} frame={frame} fps={fps} top="78%" rotation={3} />
+            {/* Frustration bars with relatable text - SPREAD across safe zone */}
+            <FrustrationBar text="Stack Overflow: 47 tabs open" delay={8} frame={frame} fps={fps} top={isMobile ? "12%" : "18%"} rotation={-4} />
+            <FrustrationBar text="Tutorial: Day 73. Still confused." delay={20} frame={frame} fps={fps} top={isMobile ? "24%" : "38%"} rotation={2.5} />
+            <FrustrationBar text="Deadline: Yesterday" delay={32} frame={frame} fps={fps} top={isMobile ? "45%" : "58%"} rotation={-1.5} />
+            <FrustrationBar text="Dependencies: Broken. Again." delay={44} frame={frame} fps={fps} top={isMobile ? "57%" : "78%"} rotation={3} />
 
-            {/* Main content */}
+            {/* Main content - USE FULL SAFE ZONE (top 75% of viewport) */}
             <div style={{
                 zIndex: 100,
                 display: 'flex',
                 flexDirection: 'column',
-                height: '100%',
-                padding: isMobile ? '60px 40px' : '80px 60px',
-                justifyContent: 'space-between'
+                height: isMobile ? '78%' : '100%',
+                padding: isMobile ? '50px 40px 0' : '80px 60px',
+                justifyContent: 'space-between',
             }}>
                 {/* Header */}
                 <div style={{ opacity: mainSpring, transform: `translateY(${(1 - mainSpring) * -30}px)` }}>
@@ -218,11 +218,11 @@ export const OriginScene: React.FC = () => {
                         background: '#1a1a1a',
                         padding: '12px 30px',
                         display: 'inline-block',
-                        marginBottom: 30
+                        marginBottom: 20
                     }}>
                         <h3 style={{
                             fontFamily: 'IBM Plex Mono, monospace',
-                            fontSize: isMobile ? 24 : 20,
+                            fontSize: isMobile ? 20 : 20,
                             color: '#fdfcf8',
                             letterSpacing: '0.35em',
                             margin: 0,
@@ -243,14 +243,16 @@ export const OriginScene: React.FC = () => {
                     </h1>
                 </div>
 
-                {/* Hours wasted counter - center piece */}
+                {/* Hours wasted counter - PUSHED UP to avoid frustration bar overlap */}
                 <div style={{
                     textAlign: 'center',
                     opacity: credentialsSpring,
                     transform: `scale(${0.9 + credentialsSpring * 0.1})`,
+                    marginTop: isMobile ? -60 : 0,
+                    marginBottom: isMobile ? 40 : 0,
                 }}>
                     <div style={{
-                        fontSize: isMobile ? 180 : 200,
+                        fontSize: isMobile ? 140 : 200,
                         fontWeight: 900,
                         color: '#cc0000',
                         lineHeight: 1,
@@ -260,20 +262,20 @@ export const OriginScene: React.FC = () => {
                     </div>
                     <div style={{
                         fontFamily: 'IBM Plex Mono, monospace',
-                        fontSize: isMobile ? 28 : 24,
+                        fontSize: isMobile ? 22 : 24,
                         color: '#5a5a5a',
                         letterSpacing: '0.3em',
-                        marginTop: 15,
+                        marginTop: 10,
                     }}>
                         HOURS ON BOILERPLATE
                     </div>
                 </div>
 
-                {/* Credentials + Punch - Asymmetric positioning */}
+                {/* Credentials + Punch - BOTTOM of safe zone */}
                 <div style={{
                     background: 'rgba(255, 255, 255, 0.95)',
-                    padding: isMobile ? '30px' : '40px',
-                    borderLeft: '8px solid #1a1a1a',
+                    padding: isMobile ? '40px 35px' : '40px',
+                    borderLeft: '10px solid #1a1a1a',
                     boxShadow: '0 30px 60px rgba(0,0,0,0.12)',
                     opacity: punchSpring,
                     transform: `translateY(${(1 - punchSpring) * 40}px) translateX(${isMobile ? '-15px' : '-30px'}) rotate(-0.5deg)`,
@@ -281,33 +283,33 @@ export const OriginScene: React.FC = () => {
                 }}>
                     <div style={{
                         fontFamily: 'IBM Plex Mono, monospace',
-                        fontSize: isMobile ? 12 : 14,
+                        fontSize: isMobile ? 26 : 14,
                         color: '#cc0000',
                         letterSpacing: '0.25em',
                         fontWeight: 800,
-                        marginBottom: 15,
+                        marginBottom: 20,
                     }}>
-                        THE_CREDENTIALS
+                        THE_REALITY
                     </div>
                     <h3 style={{
-                        fontSize: isMobile ? 28 : 38,
+                        fontSize: isMobile ? 52 : 38,
                         fontWeight: 900,
                         color: '#1a1a1a',
                         lineHeight: 1.1,
-                        marginBottom: 15,
+                        marginBottom: 20,
                         margin: 0,
                     }}>
-                        MSc. Big 4 Consultant. Tech Lead.
+                        No CS degree. Just Python notebooks.
                     </h3>
                     <p style={{
                         fontFamily: 'Playfair Display, serif',
-                        fontSize: isMobile ? 18 : 22,
+                        fontSize: isMobile ? 36 : 22,
                         fontStyle: 'italic',
                         color: '#5a5a5a',
                         lineHeight: 1.4,
                         margin: 0,
                     }}>
-                        Still spending 80% of time on code plumbing.
+                        Then I got thrown into a 100K+ LOC codebase.
                     </p>
                 </div>
             </div>
@@ -551,13 +553,17 @@ export const PeakScene: React.FC = () => {
     const bgZoom = interpolate(frame, [0, 300], [1.05, 1.15]);
     const bgPanX = interpolate(frame, [0, 300], [0, -20]);
 
-    // Stats data - 5 hero achievements
-    const stats = [
+    // Stats data - 5 hero achievements (last one is text-only)
+    const stats: Array<{
+        value?: number, prefix?: string, suffix?: string,
+        textOnly?: string, label: string, sublabel: string,
+        color: string, delay: number
+    }> = [
         { value: 5, prefix: "TOP ", suffix: "", label: "ASEAN AI HACKATHON", sublabel: "Solo dev vs 150+ teams", color: "#cc0000", delay: stat1Delay },
         { value: 100, prefix: "", suffix: "K+", label: "LINES SHIPPED", sublabel: "Enterprise production code", color: "#1a1a1a", delay: stat2Delay },
         { value: 30, prefix: "", suffix: "K+", label: "USERS SERVED", sublabel: "Enterprise AI platform", color: "#cc0000", delay: stat3Delay },
         { value: 50, prefix: "", suffix: "+", label: "PERSON TEAM", sublabel: "App engineer lead", color: "#1a1a1a", delay: stat4Delay },
-        { value: 2, prefix: "", suffix: " WKS", label: "AHEAD OF SCHEDULE", sublabel: "Fastest UAT ever", color: "#cc0000", delay: stat5Delay },
+        { textOnly: "→", label: "SENIOR AI ENGINEER", sublabel: "Landed role at frontier AI company", color: "#cc0000", delay: stat5Delay },
     ];
 
     return (
@@ -626,12 +632,23 @@ export const PeakScene: React.FC = () => {
                     </h1>
 
                     <p style={{
+                        fontFamily: 'JetBrains Mono, monospace',
+                        fontSize: isMobile ? 28 : 22,
+                        color: '#5a5a5a',
+                        margin: 0,
+                        marginTop: 20,
+                        letterSpacing: '0.05em',
+                    }}>
+                        Not because I couldn't. <span style={{ color: '#cc0000', fontWeight: 700 }}>Because I didn't need to.</span>
+                    </p>
+
+                    <p style={{
                         fontFamily: 'Playfair Display, serif',
-                        fontSize: isMobile ? 48 : 32,
+                        fontSize: isMobile ? 42 : 28,
                         fontStyle: 'italic',
                         color: '#5a5a5a',
                         margin: 0,
-                        marginTop: 25,
+                        marginTop: 20,
                     }}>
                         Yet I shipped all of this:
                     </p>
@@ -668,7 +685,7 @@ export const PeakScene: React.FC = () => {
                                     marginRight: isLeft ? (isMobile ? '4%' : '10%') : 0,
                                 }}
                             >
-                                {/* Big number - MUCH LARGER */}
+                                {/* Big number or text - MUCH LARGER */}
                                 <div style={{
                                     fontSize: isMobile ? 90 : 52,
                                     fontWeight: 900,
@@ -677,14 +694,20 @@ export const PeakScene: React.FC = () => {
                                     minWidth: isMobile ? 200 : 140,
                                     textShadow: stat.color === '#cc0000' ? '0 4px 20px rgba(204, 0, 0, 0.2)' : 'none',
                                 }}>
-                                    <AnimatedCounter 
-                                        target={stat.value} 
-                                        delay={stat.delay + 5} 
-                                        frame={frame} 
-                                        fps={fps} 
-                                        prefix={stat.prefix}
-                                        suffix={stat.suffix} 
-                                    />
+                                    {stat.textOnly ? (
+                                        <span style={{ opacity: spring({ frame: frame - stat.delay - 5, fps, config: { damping: 15 } }) }}>
+                                            {stat.textOnly}
+                                        </span>
+                                    ) : (
+                                        <AnimatedCounter
+                                            target={stat.value!}
+                                            delay={stat.delay + 5}
+                                            frame={frame}
+                                            fps={fps}
+                                            prefix={stat.prefix}
+                                            suffix={stat.suffix}
+                                        />
+                                    )}
                                 </div>
 
                                 {/* Labels - MUCH LARGER */}

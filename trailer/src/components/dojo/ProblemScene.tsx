@@ -93,7 +93,7 @@ export const ProblemScene: React.FC = () => {
 
                 {/* Cycling words with glitch effect */}
                 <div style={{ position: 'relative', marginTop: 55, height: 80 }}>
-                    {['Too slow', 'Too complex', 'Too technical', 'Old protocols'].map((word, i) => {
+                    {['47 Stack Overflow tabs', 'Tutorial hell, day 73', 'Not technical enough', 'Rewriting boilerplate'].map((word, i) => {
                         const wordOpacity = interpolate(
                             frame,
                             [30 + i * 20, 40 + i * 20, 50 + i * 20, 60 + i * 20],

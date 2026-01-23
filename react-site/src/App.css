@@ -381,6 +381,12 @@ section {
   gap: 2rem;
 }
 
+.pricing-grid.pricing-grid-two {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 .pricing-card {
   padding: 5rem 3rem;
   border: 1px solid var(--glass-border);
@@ -400,7 +406,7 @@ section {
 }
 
 .pricing-card.featured::before {
-  content: 'BEST VALUE PROTOCOL';
+  content: 'RECOMMENDED';
   position: absolute;
   top: 0;
   left: 0;

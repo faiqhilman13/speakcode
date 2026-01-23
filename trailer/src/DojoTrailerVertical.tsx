@@ -1,4 +1,7 @@
-import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
+import { AbsoluteFill, Audio, staticFile, useVideoConfig } from "remotion";
+import { TransitionSeries, linearTiming } from "@remotion/transitions";
+import { fade } from "@remotion/transitions/fade";
+import { slide } from "@remotion/transitions/slide";
 import {
     IntroScene,
     ProblemScene,
@@ -9,18 +12,21 @@ import {
     EmpowermentScene,
     MasteryScene,
     CTAScene,
-    CrossDissolve,
-    ZoomTransition,
-    FadeThrough,
-    PushSlide,
     FilmGrain,
 } from "./components/dojo";
 
 /*
  * DOJO TRAILER VERTICAL (1080x1920) - Mobile adaptation of DojoTrailer
  *
+ * BEST PRACTICES OVERHAUL - 2026-01-22
+ * - Migrated to @remotion/transitions with TransitionSeries
+ * - Using @remotion/media for Audio component
+ * - fps-based timing calculations for maintainability
+ * - Volume callbacks for smooth audio fades
+ * - Automatic transition overlap handling
+ *
  * CINEMATOGRAPHY OVERHAUL - 2026-01-10
- * - Added scene transitions (CrossDissolve, ZoomTransition, FadeThrough, PushSlide)
+ * - Added scene transitions (fade, slide)
  * - Rebalanced scene durations for better pacing
  * - Added film grain overlay for cinematic texture
  * - Optimized hook timing for first 3 seconds
@@ -31,134 +37,150 @@ import {
  * - More vertical breathing room
  * - Single-column composition
  *
- * NEW Script breakdown (55 seconds @ 30fps = 1650 frames):
- * 1. Intro (0-4s, 120f): Hook - "You have an idea"
- * 2. Problem (4-9s, 150f): Pain - "Traditional coding is the bottleneck"
- * 3. Reveal (9-15s, 180f): Solution - "Welcome to Agentic Dojo"
- * 4. Origin (15-21s, 180f): Story - "I hit a ceiling"
- * 5. Catalyst (21-27s, 180f): Realization - "They're agents"
- * 6. Proof (27-37s, 300f): Social proof - Achievements
- * 7. Empowerment (37-41s, 120f): Bridge - "Now it's your turn" [SHORTENED -30f]
- * 8. Mastery (41-47s, 180f): Curriculum - Three phases [SHORTENED -60f]
- * 9. CTA (47-55s, 240f): Close - "Join the Dojo"
+ * Script breakdown (55 seconds @ 30fps = 1650 frames):
+ * 1. Intro (0-4s, 4s): Hook - "You have an idea"
+ * 2. Problem (4-9s, 5s): Pain - "Traditional coding is the bottleneck"
+ * 3. Reveal (9-15s, 6s): Solution - "Welcome to Agentic Dojo"
+ * 4. Origin (15-21s, 6s): Story - "I hit a ceiling"
+ * 5. Catalyst (21-28s, 7s): Realization - "They're agents"
+ * 6. Proof (27-37s, 10s): Social proof - Achievements
+ * 7. Empowerment (37-41s, 4s): Bridge - "Now it's your turn"
+ * 8. Mastery (41-47s, 6s): Curriculum - Three phases
+ * 9. CTA (47-51s, 4s): Close - "Join the Dojo"
  *
  * Design: Japanese-inspired aesthetic (cream/crimson/black with traditional elements)
- * Duration: 1650 frames @ 30fps = 55 seconds
+ * Duration: ~1650 frames @ 30fps = 55 seconds (with transition overlaps)
  */
 
 export const DojoTrailerVertical: React.FC = () => {
+    const { fps } = useVideoConfig();
+
+    // Scene durations in seconds (converted to frames)
+    const SCENE_DURATIONS = {
+        intro: 4 * fps,      // 120 frames
+        problem: 5 * fps,    // 150 frames
+        reveal: 6 * fps,     // 180 frames
+        origin: 6 * fps,     // 180 frames
+        catalyst: 7 * fps,   // 210 frames
+        proof: 10 * fps,     // 300 frames
+        empowerment: 4 * fps, // 120 frames
+        mastery: 6 * fps,    // 180 frames
+        cta: 7 * fps,        // 210 frames
+    };
+
+    // Transition durations
+    const TRANSITION = {
+        short: Math.round(0.5 * fps),  // 15 frames - quick transitions
+        medium: Math.round(0.67 * fps), // 20 frames - standard transitions
+        long: Math.round(0.83 * fps),   // 25 frames - dramatic transitions
+    };
+
     return (
         <AbsoluteFill style={{ background: "#fdfcf8" }}>
             {/* Background Music: Lofi Piano Beat */}
             <Audio src={staticFile("lofi-piano-beat.mp3")} volume={0.2} />
 
-            {/* Dojo Voiceover - generated specifically for DojoTrailerVertical */}
-            <Audio src={staticFile("dojo-voiceover.mp3")} volume={1} playbackRate={1.2} />
+            {/* Dojo Voiceover */}
+            <Audio src={staticFile("dojo-voiceover.mp3")} volume={1} playbackRate={1.3} />
 
             {/* ================================================
-                SCENE 1: INTRO - The Vision (0-4s, 120 frames)
-                Transition: None (opening) → CrossDissolve out
-                SFX: None (let music establish)
+                SCENES WITH TRANSITIONS
+                Using TransitionSeries for automatic overlap handling
             ================================================ */}
-            <Sequence from={0} durationInFrames={120}>
-                <CrossDissolve direction="out" durationFrames={15}>
+            <TransitionSeries>
+                {/* SCENE 1: INTRO - The Vision (4s) */}
+                <TransitionSeries.Sequence durationInFrames={SCENE_DURATIONS.intro}>
                     <IntroScene />
-                </CrossDissolve>
-            </Sequence>
+                </TransitionSeries.Sequence>
 
-            {/* ================================================
-                SCENE 2: PROBLEM - The Wall (4-9s, 150 frames)
-                Transition: CrossDissolve in → ZoomTransition out
-                SFX: Glitch sounds on word reveals
-            ================================================ */}
-            <Sequence from={120} durationInFrames={150}>
-                <CrossDissolve direction="in" durationFrames={15}>
-                    <ZoomTransition direction="out" durationFrames={20} zoomFrom={1} zoomTo={0.8}>
-                        <ProblemScene />
-                    </ZoomTransition>
-                </CrossDissolve>
-            </Sequence>
+                {/* Transition: Fade to Problem scene */}
+                <TransitionSeries.Transition
+                    presentation={fade()}
+                    timing={linearTiming({ durationInFrames: TRANSITION.short })}
+                />
 
-            {/* ================================================
-                SCENE 3: REVEAL - The Dojo (9-15s, 180 frames)
-                Transition: ZoomTransition in (dramatic reveal)
-                SFX: Whoosh + impact on Torii gate reveal
-            ================================================ */}
-            <Sequence from={270} durationInFrames={180}>
-                <ZoomTransition direction="in" durationFrames={25} zoomFrom={1.4} zoomTo={1}>
+                {/* SCENE 2: PROBLEM - The Wall (5s) */}
+                <TransitionSeries.Sequence durationInFrames={SCENE_DURATIONS.problem}>
+                    <ProblemScene />
+                </TransitionSeries.Sequence>
+
+                {/* Transition: Slide up to Reveal (dramatic) */}
+                <TransitionSeries.Transition
+                    presentation={slide({ direction: "from-bottom" })}
+                    timing={linearTiming({ durationInFrames: TRANSITION.long })}
+                />
+
+                {/* SCENE 3: REVEAL - The Dojo (6s) */}
+                <TransitionSeries.Sequence durationInFrames={SCENE_DURATIONS.reveal}>
                     <DojoRevealScene />
-                </ZoomTransition>
-            </Sequence>
+                </TransitionSeries.Sequence>
 
-            {/* ================================================
-                SCENE 4: ORIGIN - The Struggle (15-21s, 180 frames)
-                Transition: CrossDissolve both
-                SFX: Counter tick sounds, frustration bar impacts
-            ================================================ */}
-            <Sequence from={450} durationInFrames={180}>
-                <CrossDissolve durationFrames={12}>
+                {/* Transition: Fade to Origin */}
+                <TransitionSeries.Transition
+                    presentation={fade()}
+                    timing={linearTiming({ durationInFrames: TRANSITION.short })}
+                />
+
+                {/* SCENE 4: ORIGIN - The Struggle (6s) */}
+                <TransitionSeries.Sequence durationInFrames={SCENE_DURATIONS.origin}>
                     <OriginScene />
-                </CrossDissolve>
-            </Sequence>
+                </TransitionSeries.Sequence>
 
-            {/* ================================================
-                SCENE 5: CATALYST - The Shift (21-27s, 180 frames)
-                Transition: PushSlide in → CrossDissolve out
-                SFX: Revelation sound, energy pulse
-            ================================================ */}
-            <Sequence from={630} durationInFrames={180}>
-                <PushSlide direction="up" type="enter" durationFrames={18}>
-                    <CrossDissolve direction="out" durationFrames={15}>
-                        <CatalystScene />
-                    </CrossDissolve>
-                </PushSlide>
-            </Sequence>
+                {/* Transition: Slide from right to Catalyst */}
+                <TransitionSeries.Transition
+                    presentation={slide({ direction: "from-right" })}
+                    timing={linearTiming({ durationInFrames: TRANSITION.medium })}
+                />
 
-            {/* ================================================
-                SCENE 6: PROOF - The Results (27-37s, 300 frames)
-                Transition: CrossDissolve in
-                SFX: Counter impacts, stat reveal whooshes
-            ================================================ */}
-            <Sequence from={810} durationInFrames={300}>
-                <CrossDissolve direction="in" durationFrames={15}>
+                {/* SCENE 5: CATALYST - The Shift (6s) */}
+                <TransitionSeries.Sequence durationInFrames={SCENE_DURATIONS.catalyst}>
+                    <CatalystScene />
+                </TransitionSeries.Sequence>
+
+                {/* Transition: Fade to Proof */}
+                <TransitionSeries.Transition
+                    presentation={fade()}
+                    timing={linearTiming({ durationInFrames: TRANSITION.short })}
+                />
+
+                {/* SCENE 6: PROOF - The Results (10s) */}
+                <TransitionSeries.Sequence durationInFrames={SCENE_DURATIONS.proof}>
                     <PeakScene />
-                </CrossDissolve>
-            </Sequence>
+                </TransitionSeries.Sequence>
 
-            {/* ================================================
-                SCENE 7: EMPOWERMENT - Your Turn (37-41s, 120 frames) [SHORTENED -30f]
-                Transition: CrossDissolve both
-                SFX: Rising energy, phase badge pops
-            ================================================ */}
-            <Sequence from={1110} durationInFrames={120}>
-                <CrossDissolve durationFrames={15}>
+                {/* Transition: Fade to Empowerment */}
+                <TransitionSeries.Transition
+                    presentation={fade()}
+                    timing={linearTiming({ durationInFrames: TRANSITION.short })}
+                />
+
+                {/* SCENE 7: EMPOWERMENT - Your Turn (4s) */}
+                <TransitionSeries.Sequence durationInFrames={SCENE_DURATIONS.empowerment}>
                     <EmpowermentScene />
-                </CrossDissolve>
-            </Sequence>
+                </TransitionSeries.Sequence>
 
-            {/* ================================================
-                SCENE 8: MASTERY - The Curriculum (41-47s, 180 frames) [SHORTENED -60f]
-                Transition: CrossDissolve in → FadeThrough out
-                SFX: Card reveal sounds
-            ================================================ */}
-            <Sequence from={1230} durationInFrames={180}>
-                <CrossDissolve direction="in" durationFrames={15}>
-                    <FadeThrough durationFrames={25} color="#1a1a1a">
-                        <MasteryScene />
-                    </FadeThrough>
-                </CrossDissolve>
-            </Sequence>
+                {/* Transition: Fade to Mastery */}
+                <TransitionSeries.Transition
+                    presentation={fade()}
+                    timing={linearTiming({ durationInFrames: TRANSITION.short })}
+                />
 
-            {/* ================================================
-                SCENE 9: CTA - Join the Dojo (47-55s, 240 frames)
-                Transition: FadeThrough in from black
-                SFX: Final impact, URL pulse
-            ================================================ */}
-            <Sequence from={1410} durationInFrames={240}>
-                <FadeThrough durationFrames={25} color="#1a1a1a">
+                {/* SCENE 8: MASTERY - The Curriculum (6s) */}
+                <TransitionSeries.Sequence durationInFrames={SCENE_DURATIONS.mastery}>
+                    <MasteryScene />
+                </TransitionSeries.Sequence>
+
+                {/* Transition: Slide from bottom to CTA (dramatic close) */}
+                <TransitionSeries.Transition
+                    presentation={slide({ direction: "from-bottom" })}
+                    timing={linearTiming({ durationInFrames: TRANSITION.long })}
+                />
+
+                {/* SCENE 9: CTA - Join the Dojo (8s) */}
+                <TransitionSeries.Sequence durationInFrames={SCENE_DURATIONS.cta}>
                     <CTAScene />
-                </FadeThrough>
-            </Sequence>
+                </TransitionSeries.Sequence>
+            </TransitionSeries>
 
             {/* ================================================
                 GLOBAL OVERLAYS

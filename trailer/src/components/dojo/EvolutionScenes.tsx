@@ -239,7 +239,7 @@ export const OriginScene: React.FC = () => {
                         letterSpacing: '-0.05em',
                         margin: 0
                     }}>
-                        I HIT A <br /> <span style={{ color: '#cc0000' }}>CEILING.</span>
+                        I HIT A <br /> <span style={{ color: '#cc0000' }}>WALL.</span>
                     </h1>
                 </div>
 
@@ -292,24 +292,35 @@ export const OriginScene: React.FC = () => {
                         THE_REALITY
                     </div>
                     <h3 style={{
-                        fontSize: isMobile ? 52 : 38,
+                        fontSize: isMobile ? 48 : 36,
                         fontWeight: 900,
                         color: '#1a1a1a',
                         lineHeight: 1.1,
-                        marginBottom: 20,
                         margin: 0,
+                        marginBottom: 16,
                     }}>
                         No CS degree. Just Python notebooks.
                     </h3>
                     <p style={{
                         fontFamily: 'Playfair Display, serif',
-                        fontSize: isMobile ? 36 : 22,
+                        fontSize: isMobile ? 32 : 20,
                         fontStyle: 'italic',
                         color: '#5a5a5a',
                         lineHeight: 1.4,
                         margin: 0,
+                        marginBottom: 16,
                     }}>
                         Then I got thrown into a 100K+ LOC codebase.
+                    </p>
+                    <p style={{
+                        fontFamily: 'IBM Plex Mono, monospace',
+                        fontSize: isMobile ? 28 : 18,
+                        fontWeight: 700,
+                        color: '#cc0000',
+                        lineHeight: 1.4,
+                        margin: 0,
+                    }}>
+                        Drowning in boilerplate. Deadlines piling up.
                     </p>
                 </div>
             </div>
@@ -342,18 +353,21 @@ export const CatalystScene: React.FC = () => {
     const { fps, height, width } = useVideoConfig();
     const isMobile = height > width;
 
-    // Phase timings
-    const phase1End = 50;  // "These tools aren't autocomplete..."
-    const phase2End = 100; // "They're actual AGENTS."
+    // Phase timings - EXPANDED for breathing room
+    const phase1End = 45;   // "These tools aren't autocomplete..." crossed out
+    const phase2End = 80;   // "They're actual AGENTS."
+    const phase3End = 115;  // "They EXECUTE. They BUILD. They SHIP."
+    const phase4End = 150;  // "I stopped coding. I started orchestrating."
 
     const bgPulse = 1 + Math.sin(frame * 0.08) * 0.02;
     const energyPulse = Math.sin(frame * 0.15) * 0.5 + 0.5;
 
-    // Text reveals
-    const text1Opacity = interpolate(frame, [10, 30], [0, 1], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
-    const text1Strike = interpolate(frame, [40, 55], [0, 100], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
+    // Text reveals - staggered for impact
+    const text1Opacity = interpolate(frame, [10, 25], [0, 1], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
+    const text1Strike = interpolate(frame, [35, 48], [0, 100], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
     const text2Spring = spring({ frame: frame - phase1End, fps, config: { damping: 10, stiffness: 80 } });
     const text3Spring = spring({ frame: frame - phase2End, fps, config: { damping: 12 } });
+    const text4Spring = spring({ frame: frame - phase3End, fps, config: { damping: 14 } });
 
     // Agent icons appear
     const agentPositions = isMobile
@@ -467,35 +481,95 @@ export const CatalystScene: React.FC = () => {
                     </h1>
                 </div>
 
-                {/* Phase 3: The punch */}
+                {/* Phase 3: The triple punch - EXECUTE, BUILD, SHIP */}
                 <div style={{
                     opacity: text3Spring,
                     transform: `translateY(${(1 - text3Spring) * 40}px)`,
-                    marginTop: 70,
-                    padding: '45px 60px',
-                    border: '2px solid rgba(204, 0, 0, 0.4)',
-                    background: 'rgba(204, 0, 0, 0.08)',
-                    backdropFilter: 'blur(10px)',
+                    marginTop: 50,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: isMobile ? 20 : 16,
                 }}>
-                    <p style={{
-                        fontSize: isMobile ? 42 : 40,
-                        fontWeight: 600,
-                        color: '#fdfcf8',
-                        lineHeight: 1.5,
-                        margin: 0,
+                    {/* Three action words with staggered reveal */}
+                    <div style={{
+                        display: 'flex',
+                        gap: isMobile ? 30 : 40,
+                        flexWrap: 'wrap',
+                        justifyContent: 'center',
                     }}>
-                        They don't <span style={{ color: 'rgba(253,252,248,0.4)', textDecoration: 'line-through' }}>suggest</span>.
-                        They <span style={{ color: '#cc0000', fontWeight: 900 }}>execute.</span>
-                    </p>
+                        {['EXECUTE', 'BUILD', 'SHIP'].map((word, i) => {
+                            const wordSpring = spring({ frame: frame - (phase2End + 8 + i * 12), fps, config: { damping: 10, stiffness: 100 } });
+                            const wordPulse = 1 + Math.sin((frame - phase2End - i * 12) * 0.15) * 0.05;
+                            return (
+                                <div
+                                    key={word}
+                                    style={{
+                                        opacity: wordSpring,
+                                        transform: `scale(${wordSpring * wordPulse}) translateY(${(1 - wordSpring) * 20}px)`,
+                                        padding: isMobile ? '18px 35px' : '14px 30px',
+                                        background: i === 0 ? '#cc0000' : 'rgba(204, 0, 0, 0.15)',
+                                        border: `2px solid ${i === 0 ? '#cc0000' : 'rgba(204, 0, 0, 0.5)'}`,
+                                    }}
+                                >
+                                    <span style={{
+                                        fontFamily: 'IBM Plex Mono, monospace',
+                                        fontSize: isMobile ? 36 : 28,
+                                        fontWeight: 900,
+                                        color: i === 0 ? '#fdfcf8' : '#cc0000',
+                                        letterSpacing: '0.15em',
+                                    }}>
+                                        {word}.
+                                    </span>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* Supporting line */}
                     <p style={{
-                        fontSize: isMobile ? 28 : 24,
+                        fontSize: isMobile ? 32 : 26,
                         color: 'rgba(253, 252, 248, 0.6)',
                         fontFamily: 'Playfair Display, serif',
                         fontStyle: 'italic',
                         margin: 0,
-                        marginTop: 20,
+                        marginTop: 10,
+                        opacity: spring({ frame: frame - (phase2End + 45), fps, config: { damping: 14 } }),
                     }}>
-                        You describe. They build.
+                        You describe. They deliver.
+                    </p>
+                </div>
+
+                {/* Phase 4: The personal transformation - I stopped coding */}
+                <div style={{
+                    opacity: text4Spring,
+                    transform: `translateY(${(1 - text4Spring) * 30}px)`,
+                    marginTop: 45,
+                    padding: isMobile ? '35px 45px' : '30px 50px',
+                    border: '2px solid rgba(204, 0, 0, 0.4)',
+                    background: 'rgba(204, 0, 0, 0.08)',
+                    backdropFilter: 'blur(10px)',
+                    textAlign: 'center',
+                }}>
+                    <p style={{
+                        fontSize: isMobile ? 38 : 32,
+                        fontWeight: 700,
+                        color: '#fdfcf8',
+                        lineHeight: 1.4,
+                        margin: 0,
+                    }}>
+                        I stopped <span style={{ color: 'rgba(253,252,248,0.4)', textDecoration: 'line-through' }}>coding</span>.
+                    </p>
+                    <p style={{
+                        fontSize: isMobile ? 44 : 36,
+                        fontWeight: 900,
+                        color: '#cc0000',
+                        lineHeight: 1.3,
+                        margin: 0,
+                        marginTop: 12,
+                        textShadow: '0 0 40px rgba(204, 0, 0, 0.4)',
+                    }}>
+                        I started orchestrating.
                     </p>
                 </div>
             </div>
@@ -562,8 +636,8 @@ export const PeakScene: React.FC = () => {
         { value: 5, prefix: "TOP ", suffix: "", label: "ASEAN AI HACKATHON", sublabel: "Solo dev vs 150+ teams", color: "#cc0000", delay: stat1Delay },
         { value: 100, prefix: "", suffix: "K+", label: "LINES SHIPPED", sublabel: "Enterprise production code", color: "#1a1a1a", delay: stat2Delay },
         { value: 30, prefix: "", suffix: "K+", label: "USERS SERVED", sublabel: "Enterprise AI platform", color: "#cc0000", delay: stat3Delay },
-        { value: 50, prefix: "", suffix: "+", label: "PERSON TEAM", sublabel: "App engineer lead", color: "#1a1a1a", delay: stat4Delay },
-        { textOnly: "→", label: "SENIOR AI ENGINEER", sublabel: "Landed role at frontier AI company", color: "#cc0000", delay: stat5Delay },
+        { value: 50, prefix: "", suffix: "+", label: "PERSON TEAM", sublabel: "App lead, delivered 90% solo", color: "#1a1a1a", delay: stat4Delay },
+        { textOnly: "→", label: "SENIOR AI ENGINEER", sublabel: "Multiple competing offers", color: "#cc0000", delay: stat5Delay },
     ];
 
     return (
@@ -620,26 +694,26 @@ export const PeakScene: React.FC = () => {
 
                     {/* Main hook headline - MUCH LARGER */}
                     <h1 style={{
-                        fontSize: isMobile ? 82 : 68,
+                        fontSize: isMobile ? 76 : 64,
                         fontWeight: 900,
                         color: '#1a1a1a',
                         letterSpacing: '-0.03em',
                         lineHeight: 1.0,
                         margin: 0,
                     }}>
-                        I've written zero code<br />
+                        Almost zero code by hand<br />
                         in <span style={{ color: '#cc0000' }}>10 months.</span>
                     </h1>
 
                     <p style={{
                         fontFamily: 'JetBrains Mono, monospace',
-                        fontSize: isMobile ? 28 : 22,
+                        fontSize: isMobile ? 26 : 20,
                         color: '#5a5a5a',
                         margin: 0,
                         marginTop: 20,
                         letterSpacing: '0.05em',
                     }}>
-                        Not because I couldn't. <span style={{ color: '#cc0000', fontWeight: 700 }}>Because I didn't need to.</span>
+                        I stopped typing code. <span style={{ color: '#cc0000', fontWeight: 700 }}>I started directing agents.</span>
                     </p>
 
                     <p style={{

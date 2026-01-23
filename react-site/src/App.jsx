@@ -193,27 +193,17 @@ function App() {
             <h2 className="section-title">Initialize Access</h2>
             <p className="section-desc">Launching soon. Join the waitlist for early access.</p>
           </div>
-          <div className="pricing-grid">
-            <div className="pricing-card">
-              <span className="pricing-tier">White Belt</span>
-              <div className="pricing-price">$50</div>
+          <div className="pricing-grid pricing-grid-two">
+            <div className="pricing-card featured">
+              <span className="pricing-tier">Early Access</span>
+              <div className="pricing-price">COMING SOON</div>
               <ul className="pricing-features">
                 <li>Full Video Curriculum</li>
                 <li>Strategic Resource Vault</li>
                 <li>Lifetime Protocol Updates</li>
+                <li>Priority Launch Access</li>
               </ul>
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSeJE99cwMuVbtAE1Iy2G1Lc5OGP3UxxHyyWIJxBx4_UTRz4-w/viewform" target="_blank" rel="noopener noreferrer" className="btn-secondary">Join Waitlist</a>
-            </div>
-            <div className="pricing-card featured">
-              <span className="pricing-tier">Black Belt</span>
-              <div className="pricing-price">$100</div>
-              <ul className="pricing-features">
-                <li>Everything in White Belt</li>
-                <li>1-on-1 Strategic Mentoring</li>
-                <li>Direct Neural Network Access</li>
-                <li>Priority Code Validation</li>
-              </ul>
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSeJE99cwMuVbtAE1Iy2G1Lc5OGP3UxxHyyWIJxBx4_UTRz4-w/viewform" target="_blank" rel="noopener noreferrer" className="btn-primary">Get Early Access</a>
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSeJE99cwMuVbtAE1Iy2G1Lc5OGP3UxxHyyWIJxBx4_UTRz4-w/viewform" target="_blank" rel="noopener noreferrer" className="btn-primary">Join Waitlist</a>
             </div>
             <div className="pricing-card">
               <span className="pricing-tier">Corporate</span>

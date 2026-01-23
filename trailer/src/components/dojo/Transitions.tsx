@@ -1,4 +1,4 @@
-import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Easing, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 
 /*
  * SCENE TRANSITIONS
@@ -19,7 +19,10 @@ export const CrossDissolve: React.FC<{
     let opacity = 1;
 
     if (direction === 'in' || direction === 'both') {
-        opacity = Math.min(opacity, interpolate(frame, [0, durationFrames], [0, 1], { extrapolateRight: 'clamp' }));
+        opacity = Math.min(opacity, interpolate(frame, [0, durationFrames], [0, 1], {
+            extrapolateRight: 'clamp',
+            easing: Easing.inOut(Easing.quad),
+        }));
     }
 
     if (direction === 'out' || direction === 'both') {
@@ -27,7 +30,10 @@ export const CrossDissolve: React.FC<{
             frame,
             [durationInFrames - durationFrames, durationInFrames],
             [1, 0],
-            { extrapolateLeft: 'clamp' }
+            {
+                extrapolateLeft: 'clamp',
+                easing: Easing.inOut(Easing.quad),
+            }
         ));
     }
 
@@ -57,21 +63,31 @@ export const ZoomTransition: React.FC<{
     if (direction === 'in') {
         scale = interpolate(frame, [0, durationFrames], [zoomFrom, zoomTo], {
             extrapolateRight: 'clamp',
-            extrapolateLeft: 'clamp'
+            extrapolateLeft: 'clamp',
+            easing: Easing.out(Easing.quad),
         });
-        opacity = interpolate(frame, [0, durationFrames * 0.6], [0, 1], { extrapolateRight: 'clamp' });
+        opacity = interpolate(frame, [0, durationFrames * 0.6], [0, 1], {
+            extrapolateRight: 'clamp',
+            easing: Easing.out(Easing.quad),
+        });
     } else {
         scale = interpolate(
             frame,
             [durationInFrames - durationFrames, durationInFrames],
             [zoomTo, zoomFrom],
-            { extrapolateLeft: 'clamp' }
+            {
+                extrapolateLeft: 'clamp',
+                easing: Easing.in(Easing.quad),
+            }
         );
         opacity = interpolate(
             frame,
             [durationInFrames - durationFrames * 0.6, durationInFrames],
             [1, 0],
-            { extrapolateLeft: 'clamp' }
+            {
+                extrapolateLeft: 'clamp',
+                easing: Easing.in(Easing.quad),
+            }
         );
     }
 
@@ -97,14 +113,20 @@ export const FadeThrough: React.FC<{
     const { durationInFrames } = useVideoConfig();
 
     // Fade in from color
-    const fadeInOpacity = interpolate(frame, [0, durationFrames], [0, 1], { extrapolateRight: 'clamp' });
+    const fadeInOpacity = interpolate(frame, [0, durationFrames], [0, 1], {
+        extrapolateRight: 'clamp',
+        easing: Easing.out(Easing.quad),
+    });
 
     // Fade out to color
     const fadeOutOpacity = interpolate(
         frame,
         [durationInFrames - durationFrames, durationInFrames],
         [1, 0],
-        { extrapolateLeft: 'clamp' }
+        {
+            extrapolateLeft: 'clamp',
+            easing: Easing.in(Easing.quad),
+        }
     );
 
     const contentOpacity = Math.min(fadeInOpacity, fadeOutOpacity);
@@ -151,27 +173,45 @@ export const PushSlide: React.FC<{
     let opacity = 1;
 
     if (type === 'enter') {
-        translateX = interpolate(frame, [0, durationFrames], [offset.x, 0], { extrapolateRight: 'clamp' });
-        translateY = interpolate(frame, [0, durationFrames], [offset.y, 0], { extrapolateRight: 'clamp' });
-        opacity = interpolate(frame, [0, durationFrames * 0.5], [0.5, 1], { extrapolateRight: 'clamp' });
+        translateX = interpolate(frame, [0, durationFrames], [offset.x, 0], {
+            extrapolateRight: 'clamp',
+            easing: Easing.out(Easing.quad),
+        });
+        translateY = interpolate(frame, [0, durationFrames], [offset.y, 0], {
+            extrapolateRight: 'clamp',
+            easing: Easing.out(Easing.quad),
+        });
+        opacity = interpolate(frame, [0, durationFrames * 0.5], [0.5, 1], {
+            extrapolateRight: 'clamp',
+            easing: Easing.out(Easing.quad),
+        });
     } else {
         translateX = interpolate(
             frame,
             [durationInFrames - durationFrames, durationInFrames],
             [0, -offset.x],
-            { extrapolateLeft: 'clamp' }
+            {
+                extrapolateLeft: 'clamp',
+                easing: Easing.in(Easing.quad),
+            }
         );
         translateY = interpolate(
             frame,
             [durationInFrames - durationFrames, durationInFrames],
             [0, -offset.y],
-            { extrapolateLeft: 'clamp' }
+            {
+                extrapolateLeft: 'clamp',
+                easing: Easing.in(Easing.quad),
+            }
         );
         opacity = interpolate(
             frame,
             [durationInFrames - durationFrames * 0.5, durationInFrames],
             [1, 0.5],
-            { extrapolateLeft: 'clamp' }
+            {
+                extrapolateLeft: 'clamp',
+                easing: Easing.in(Easing.quad),
+            }
         );
     }
 

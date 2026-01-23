@@ -7,7 +7,7 @@ const CurriculumCard = ({ phase, title, items, delay, fps, frame, isMobile }: { 
         <div style={{
             background: 'rgba(255, 255, 255, 0.9)',
             backdropFilter: 'blur(10px)',
-            padding: isMobile ? '45px 40px' : '40px 30px',
+            padding: isMobile ? '38px 42px' : '42px 34px',
             border: '1px solid rgba(0,0,0,0.1)',
             boxShadow: '0 30px 60px rgba(0,0,0,0.06)',
             opacity: s,
@@ -15,24 +15,27 @@ const CurriculumCard = ({ phase, title, items, delay, fps, frame, isMobile }: { 
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            marginBottom: isMobile ? '20px' : '0',
             position: 'relative',
             overflow: 'hidden'
         }}>
-            <div style={{ position: 'absolute', top: 20, right: 30, fontSize: isMobile ? 70 : 40, fontFamily: 'Satoshi, sans-serif', fontWeight: 900, color: 'rgba(0,0,0,0.03)' }}>{phase.split(' ')[1]}</div>
-            <div style={{ fontFamily: 'IBM Plex Mono, monospace', color: '#cc0000', fontSize: isMobile ? 24 : 14, letterSpacing: '0.25em', fontWeight: 700 }}>{phase}</div>
-            <h3 style={{ fontSize: isMobile ? 52 : 26, fontWeight: 900, color: '#1a1a1a', marginTop: 15, marginBottom: isMobile ? 25 : 25, letterSpacing: '-0.02em' }}>{title}</h3>
-            <div style={{ flex: 1 }}>
+            <div style={{ position: 'absolute', top: 17, right: 30, fontSize: isMobile ? 100 : 62, fontFamily: 'Satoshi, sans-serif', fontWeight: 900, color: 'rgba(0,0,0,0.04)' }}>{phase.split(' ')[1]}</div>
+            <div style={{ fontFamily: 'IBM Plex Mono, monospace', color: '#cc0000', fontSize: isMobile ? 30 : 20, letterSpacing: '0.25em', fontWeight: 700 }}>{phase}</div>
+            <h3 style={{ fontSize: isMobile ? 66 : 41, fontWeight: 900, color: '#1a1a1a', marginTop: 12, marginBottom: isMobile ? 18 : 22, letterSpacing: '-0.02em' }}>{title}</h3>
+            {/* 2-column grid for items */}
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr 1fr' : '1fr 1fr',
+                gap: isMobile ? '16px 25px' : '12px 30px',
+            }}>
                 {items.map((item, i) => (
                     <div key={i} style={{
                         display: 'flex',
-                        alignItems: 'center',
-                        gap: isMobile ? 20 : 15,
-                        marginBottom: isMobile ? 18 : 12,
-                        opacity: spring({ frame: frame - (delay + 22 + i * 7), fps })
+                        alignItems: 'flex-start',
+                        gap: isMobile ? 16 : 13,
+                        opacity: spring({ frame: frame - (delay + 15 + i * 4), fps })
                     }}>
-                        <div style={{ width: isMobile ? 12 : 8, height: isMobile ? 3 : 2, background: '#cc0000' }} />
-                        <span style={{ fontFamily: 'Playfair Display, serif', fontSize: isMobile ? 32 : 17, fontStyle: 'italic', color: '#5a5a5a', lineHeight: 1.4 }}>{item}</span>
+                        <div style={{ width: isMobile ? 13 : 10, height: isMobile ? 4 : 2, background: '#cc0000', flexShrink: 0, marginTop: isMobile ? 17 : 12 }} />
+                        <span style={{ fontFamily: 'Playfair Display, serif', fontSize: isMobile ? 35 : 23, fontStyle: 'italic', color: '#5a5a5a', lineHeight: 1.35 }}>{item}</span>
                     </div>
                 ))}
             </div>
@@ -74,76 +77,84 @@ export const MasteryScene: React.FC = () => {
             ))}
 
             <div style={{ display: 'flex', flexDirection: 'column', height: '100%', zIndex: 10 }}>
-                {/* Header */}
+                {/* Header - Compact for mobile */}
                 <div style={{
                     opacity: headerSpring,
                     transform: `translateY(${(1 - headerSpring) * -20}px)`,
                     textAlign: 'center',
-                    marginBottom: isMobile ? '20px' : '50px'
+                    marginBottom: isMobile ? '15px' : '50px'
                 }}>
                     <h3 style={{
                         fontFamily: 'IBM Plex Mono, monospace',
-                        fontSize: isMobile ? 24 : 22,
+                        fontSize: isMobile ? 20 : 22,
                         color: '#cc0000',
                         letterSpacing: '0.25em',
                         fontWeight: 800,
                         margin: 0,
-                        marginBottom: 15,
+                        marginBottom: 12,
                         background: 'rgba(204, 0, 0, 0.08)',
-                        padding: isMobile ? '14px 24px' : '14px 28px',
+                        padding: isMobile ? '12px 20px' : '14px 28px',
                         display: 'inline-block',
                     }}>
-                        WHAT YOU'LL LEARN
+                        THE CURRICULUM
                     </h3>
-                    <h2 style={{ fontSize: isMobile ? 72 : 64, fontWeight: 900, color: '#1a1a1a', letterSpacing: '-0.04em', lineHeight: 1.1, marginTop: 10 }}>
-                        The Path to <span style={{ color: '#cc0000' }}>Mastery</span>
+                    <h2 style={{ fontSize: isMobile ? 56 : 64, fontWeight: 900, color: '#1a1a1a', letterSpacing: '-0.04em', lineHeight: 1.1, marginTop: 8 }}>
+                        Path to <span style={{ color: '#cc0000' }}>Mastery</span>
                     </h2>
-                    <p style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: isMobile ? 16 : 16, color: '#5a5a5a', marginTop: 15, letterSpacing: '0.3em', fontWeight: 600 }}>
-                        THREE PHASES
-                    </p>
                 </div>
 
-                {/* Curriculum Grid */}
+                {/* Curriculum Grid - auto-sized cards */}
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 10,
-                    flex: 1
+                    gap: isMobile ? 18 : 14,
                 }}>
                     <CurriculumCard
                         phase="PHASE 01"
-                        title="THE MIND"
-                        items={['Think in systems, not syntax', 'Problem decomposition protocols', 'From notebooks to enterprise codebases']}
-                        delay={22} fps={fps} frame={frame} isMobile={isMobile}
+                        title="The Mind"
+                        items={[
+                            'How AI can actually build for you',
+                            'The tools that change everything',
+                            'Why most people use AI wrong'
+                        ]}
+                        delay={18} fps={fps} frame={frame} isMobile={isMobile}
                     />
                     <CurriculumCard
                         phase="PHASE 02"
-                        title="THE BLADE"
-                        items={['Master MCPs, skills & workflows', 'Ship features without learning new languages', 'Agent orchestration & LLM patterns']}
-                        delay={45} fps={fps} frame={frame} isMobile={isMobile}
+                        title="The Blade"
+                        items={[
+                            'Choose the best AI stack for you',
+                            'The exact setup I use daily',
+                            'State of the art workflows'
+                        ]}
+                        delay={42} fps={fps} frame={frame} isMobile={isMobile}
                     />
                     <CurriculumCard
                         phase="PHASE 03"
-                        title="THE STRIKE"
-                        items={['Production-ready in days, not months', 'Handle 100K+ LOC codebases', 'The live build: idea to deployed']}
-                        delay={68} fps={fps} frame={frame} isMobile={isMobile}
+                        title="The Strike"
+                        items={[
+                            'Create a real project with me',
+                            'Watch the full workflow',
+                            'From idea to live app'
+                        ]}
+                        delay={66} fps={fps} frame={frame} isMobile={isMobile}
                     />
                 </div>
 
-                {/* Bottom Banner */}
+                {/* Bottom Banner - compact for mobile */}
                 <div style={{
-                    marginTop: isMobile ? 40 : 50,
+                    marginTop: isMobile ? 15 : 50,
                     textAlign: 'center',
-                    opacity: spring({ frame: frame - 112, fps }),
+                    opacity: spring({ frame: frame - 100, fps }),
                     fontFamily: 'Playfair Display, serif',
                     fontSize: isMobile ? 28 : 24,
                     color: '#1a1a1a',
                     fontStyle: 'italic',
                     lineHeight: 1.4,
-                    borderTop: '2px solid rgba(0,0,0,0.05)',
-                    paddingTop: isMobile ? '20px' : '30px'
+                    paddingTop: isMobile ? '12px' : '30px',
+                    marginBottom: isMobile ? 80 : 0,
                 }}>
-                    "By the end, you'll be building complex <br /> systems in record time."
+                    "No coding experience needed. Just follow along."
                 </div>
             </div>
         </AbsoluteFill>

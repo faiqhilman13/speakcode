@@ -235,20 +235,20 @@ export const EmpowermentScene: React.FC = () => {
                     boxShadow: '0 0 25px rgba(204, 0, 0, 0.6)',
                 }} />
 
-                {/* The hook */}
+                {/* Value Transfer - What's in it for you */}
                 <div style={{
                     opacity: s5,
                     transform: `translateY(${(1 - s5) * 18}px)`,
                 }}>
                     <p style={{
-                        fontSize: isMobile ? 40 : 42,
-                        color: 'rgba(253, 252, 248, 0.55)',
+                        fontSize: isMobile ? 34 : 32,
+                        color: 'rgba(253, 252, 248, 0.6)',
                         fontFamily: "'Playfair Display', Georgia, serif",
                         fontStyle: 'italic',
                         margin: 0,
-                        marginBottom: 22,
+                        marginBottom: 16,
                     }}>
-                        The only thing missing?
+                        What took me 10 months to figure out...
                     </p>
                 </div>
 
@@ -257,16 +257,27 @@ export const EmpowermentScene: React.FC = () => {
                     transform: `scale(${0.88 + s6 * 0.12})`,
                 }}>
                     <h2 style={{
-                        fontSize: isMobile ? 115 : 115,
+                        fontSize: isMobile ? 80 : 85,
                         fontWeight: 900,
                         fontFamily: "'Satoshi', sans-serif",
-                        color: '#cc0000',
-                        lineHeight: 1,
+                        color: '#fdfcf8',
+                        lineHeight: 1.1,
                         margin: 0,
-                        textShadow: '0 0 70px rgba(204, 0, 0, 0.45)',
+                        marginBottom: 12,
                     }}>
-                        THE METHOD.
+                        Compressed into<br />
+                        <span style={{ color: '#cc0000', textShadow: '0 0 50px rgba(204, 0, 0, 0.5)' }}>3-5 hours.</span>
                     </h2>
+                    <p style={{
+                        fontSize: isMobile ? 30 : 28,
+                        color: 'rgba(253, 252, 248, 0.5)',
+                        fontFamily: "'JetBrains Mono', monospace",
+                        margin: 0,
+                        marginTop: 18,
+                        letterSpacing: '0.1em',
+                    }}>
+                        Skip the struggle. Start shipping.
+                    </p>
                 </div>
 
                 {/* Bridge to curriculum - 3 phases */}
